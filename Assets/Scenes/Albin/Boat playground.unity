@@ -322,7 +322,8 @@ MonoBehaviour:
   bobbingSpeed: 1.5
   bobbingHeight: 0.01
   bobbingOffset: 0.01
-  rockingStrength: 1.2
+  rockingStrength: 400
+  turnSpeed: 0.3
 --- !u!1 &1322390257
 GameObject:
   m_ObjectHideFlags: 0
