@@ -22,12 +22,14 @@ public class PlayerMovement : MonoBehaviour
 
     private float _moveSpeed;
     private bool _isCrouching = false;
+    private float _initialJumpVelocity;
 
     private Vector2 _moveDirection;
+    private Vector3 _movement;
     private Vector3 _playerVelocity;
 
-    private float _initialJumpVelocity;
     private const float _gravityConstant = -9.81f;
+    private const float _rotationSpeed = 180.0f;
 
     void Awake()
     {
@@ -67,7 +69,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Current move speed: " + _moveSpeed);
         PlayerMove();
         PlayerJump();
     }
@@ -75,13 +76,43 @@ public class PlayerMovement : MonoBehaviour
     private void PlayerMove()
     {
         CheckSprint();
+        
         if (_isCrouching)
         {
             _moveSpeed = _crouchSpeed;
         }
-       _moveDirection = _moveAction.ReadValue<Vector2>();
-        Vector3 movement = new Vector3(_moveDirection.x * _moveSpeed * Time.deltaTime, 0, _moveDirection.y * _moveSpeed * Time.deltaTime);
-        _characterController.Move(movement); 
+
+        _moveDirection = _moveAction.ReadValue<Vector2>();
+
+        // W and S
+        Vector3 forwardMovement = transform.forward * _moveDirection.y * _moveSpeed * Time.deltaTime;
+
+        // A and D
+        Vector3 sideMovement = Vector3.zero;
+
+        if (Mathf.Abs(_moveDirection.y) < 0.01f && Mathf.Abs(_moveDirection.x) > 0.01f)
+        {
+            sideMovement = transform.right * _moveDirection.x * _moveSpeed * Time.deltaTime;
+        }
+
+        // Side moment is 0 when moving forward/backward or forward/backward combined with turning
+        _movement = forwardMovement + sideMovement;
+        _characterController.Move(_movement); 
+
+        HandleRotation();
+    }
+
+    private void HandleRotation()
+    {
+        float turnInput = _moveDirection.x;
+        float forwardInput = _moveDirection.y;
+
+        // Rotate only when moving forward and turning
+        if (Mathf.Abs(forwardInput) > 0.01f && Mathf.Abs(turnInput) > 0.01f)
+        {
+            float rotationAmount = turnInput * _rotationSpeed * Time.deltaTime;
+            transform.Rotate(0, rotationAmount, 0);
+        }
     }
 
     private void CheckSprint()
@@ -106,13 +137,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_characterController.isGrounded && !_isCrouching){
             _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -3.0f * _gravityConstant);
-            Debug.Log("Jump action performed.");
         }
     }
 
     private void CrouchAction(InputAction.CallbackContext context)
     {
-        Debug.Log("Crouch action performed.");
         _isCrouching = !_isCrouching;
         
         if (_isCrouching)

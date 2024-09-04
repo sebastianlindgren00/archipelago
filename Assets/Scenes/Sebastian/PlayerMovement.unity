@@ -684,7 +684,7 @@ PrefabInstance:
       addedObject: {fileID: 1571671693}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84177dfeb58334b318f8b993498d45b2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1571671692}
+      addedObject: {fileID: 1571671698}
   m_SourcePrefab: {fileID: 100100000, guid: 84177dfeb58334b318f8b993498d45b2, type: 3}
 --- !u!1 &1346948348
 GameObject:
@@ -770,22 +770,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 84177dfeb58334b318f8b993498d45b2, type: 3}
   m_PrefabInstance: {fileID: 1208906934}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1571671692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571671689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce5f7913d0564a01a4b464e88a92b35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _jumpHeight: 0.5
-  _walkSpeed: 2.5
-  _sprintSpeed: 4
-  _crouchSpeed: 1.5
 --- !u!143 &1571671693
 CharacterController:
   m_ObjectHideFlags: 0
@@ -817,6 +801,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 84177dfeb58334b318f8b993498d45b2, type: 3}
   m_PrefabInstance: {fileID: 1208906934}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1571671698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571671689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce5f7913d0564a01a4b464e88a92b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jumpHeight: 0.5
+  _walkSpeed: 2.5
+  _sprintSpeed: 4
+  _crouchSpeed: 1.5
 --- !u!1 &1646891324
 GameObject:
   m_ObjectHideFlags: 3
@@ -1030,7 +1030,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873932036}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20985533, y: 0.0000000920483, z: -0.000000019756762, w: 0.9777325}
+  m_LocalRotation: {x: 0.20985536, y: -0.000000011981952, z: 0.0000000025717435, w: 0.9777325}
   m_LocalPosition: {x: 1.52, y: 3.341, z: -4.008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
