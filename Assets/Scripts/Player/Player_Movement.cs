@@ -7,69 +7,87 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovementAndJump : MonoBehaviour
 {
-    private PlayerController _controls;
-    private CharacterController _controller;
-    private InputAction _jump;
-    private InputAction _move;
-    
-    [SerializeField] private float _jumpHeight = 2.0f;
-    [SerializeField] private float _moveSpeed = 5.0f;
+    private PlayerController _playerControls;
+    private CharacterController _characterController;
 
-    private Vector3 _playerVelocity;
+    private InputAction _moveAction;
+    private InputAction _jumpAction;
+    private InputAction _sprintAction;
+
+    [SerializeField] private float _jumpHeight = 0.5f;
+    [SerializeField] private float _walkSpeed = 2.5f;
+    [SerializeField] private float _sprintSpeed = 4.0f;
+    private float _moveSpeed;
+
     private Vector2 _moveDirection;
+    private Vector3 _playerVelocity;
 
-    private const float _gravity = -9.81f;
     private float _initialJumpVelocity;
+    private const float _gravityConstant = -9.81f;
 
     void Awake()
     {
-        _controls = new PlayerController();
-        _controller = GetComponent<CharacterController>();
+        _playerControls = new PlayerController();
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void OnEnable()
     {
-        _move = _controls.Player.Movement;
-        _move.Enable();
+        _moveAction = _playerControls.Player.Move;
+        _moveAction.Enable();
 
-        _jump = _controls.Player.Jump;
-        _jump.Enable();
-        _jump.performed += Jump;
+        _jumpAction = _playerControls.Player.Jump;
+        _jumpAction.Enable();
+        _jumpAction.performed += JumpAction;
+
+        _sprintAction = _playerControls.Player.Sprint;
+        _sprintAction.Enable();
     }
 
     private void OnDisable()
     {
-        _jump.Disable();
+        _moveAction.Disable();
+        _jumpAction.Disable();
+        _sprintAction.Disable();
     }
 
     void Start()
     {
-        _initialJumpVelocity = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
+        _initialJumpVelocity = Mathf.Sqrt(_jumpHeight * -2f * _gravityConstant);
     }
 
     void Update()
     {
+        Debug.Log("Current move speed: " + _moveSpeed);
         PlayerMove();
         PlayerJump();
     }
 
     private void PlayerMove()
     {
-       _moveDirection = _move.ReadValue<Vector2>();
+        if(_sprintAction.ReadValue<float>() > 0)
+        {
+            _moveSpeed = _sprintSpeed;
+        }
+        else
+        {
+            _moveSpeed = _walkSpeed;
+        }
+       _moveDirection = _moveAction.ReadValue<Vector2>();
         Vector3 movement = new Vector3(_moveDirection.x * _moveSpeed * Time.deltaTime, 0, _moveDirection.y * _moveSpeed * Time.deltaTime);
-        _controller.Move(movement); 
+        _characterController.Move(movement); 
     }
 
     private void PlayerJump()
     {
-        _playerVelocity.y += _gravity * Time.deltaTime;
-        _controller.Move(_playerVelocity * Time.deltaTime);
+        _playerVelocity.y += _gravityConstant * Time.deltaTime;
+        _characterController.Move(_playerVelocity * Time.deltaTime);
     }
 
-    private void Jump(InputAction.CallbackContext context)
+    private void JumpAction(InputAction.CallbackContext context)
     {
-        if (_controller.isGrounded){
-            _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -3.0f * _gravity);
+        if (_characterController.isGrounded){
+            _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -3.0f * _gravityConstant);
             Debug.Log("Jump action performed.");
         }
     }
