@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     {
         PlayerMove();
         PlayerJump();
+        //Debug.Log("Vertical Velocity: " + _playerVelocity.y);
     }
 
     private void PlayerMove()
@@ -227,9 +228,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void JumpAction(InputAction.CallbackContext context)
     {
-        Debug.Log("Jumped");
-        if (_characterController.isGrounded && !_isCrouching){
+        if (_characterController.isGrounded && !_isCrouching)
+        {
+            // Apply initial jump velocity when grounded and not crouching
             _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -3.0f * _gravityConstant);
+            Debug.Log("Jump triggered with velocity: " + _playerVelocity.y);
         }
     }
 
