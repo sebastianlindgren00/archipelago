@@ -1,6 +1,5 @@
 {
     "files.exclude": {
-        "**/*.csproj": true,
         "**/.DS_Store": true,
         "**/.git": true,
         "**/.vs": true,
