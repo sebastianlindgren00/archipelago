@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
 
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerController _playerControls;
     private CharacterController _characterController;
+    private Animator _animator;
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -35,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerControls = new PlayerController();
         _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -83,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _moveDirection = _moveAction.ReadValue<Vector2>();
+        Debug.Log("Move Direction: " + _moveDirection);
 
         // W and S
         Vector3 forwardMovement = transform.forward * _moveDirection.y * _moveSpeed * Time.deltaTime;
@@ -117,13 +121,46 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckSprint()
     {
-        if(!_isCrouching && _sprintAction.ReadValue<float>() > 0)
+        bool isHoldingSprint = _sprintAction.ReadValue<float>() > 0;
+        bool isPlayerInMotion = Mathf.Abs(_moveDirection.x) > 0.01f || Mathf.Abs(_moveDirection.y) > 0.01f;
+        
+        if (_isCrouching)
         {
-            _moveSpeed = _sprintSpeed;
+            if(isPlayerInMotion)
+            {
+                _animator.SetBool("isIdle", false);
+            }
+            else
+            {
+                _animator.SetBool("isIdle", true);
+            }
+            _moveSpeed = _crouchSpeed;
+            _animator.SetBool("isRunning", false);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isCrouching", true);
         }
-        else if(!_isCrouching)
+        else
         {
-            _moveSpeed = _walkSpeed;
+            _animator.SetBool("isCrouching", false);
+            if (isHoldingSprint && isPlayerInMotion)
+            {
+                _moveSpeed = _sprintSpeed;
+                _animator.SetBool("isRunning", true);
+                _animator.SetBool("isWalking", false);
+            }
+            else if (isPlayerInMotion)
+            {
+                _moveSpeed = _walkSpeed;
+                _animator.SetBool("isRunning", false);
+                _animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                _animator.SetBool("isRunning", false);
+                _animator.SetBool("isWalking", false);
+                _animator.SetBool("isIdle", true);
+                _moveSpeed = 0f;
+            }
         }
     }
 
