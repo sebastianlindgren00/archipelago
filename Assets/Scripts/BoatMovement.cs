@@ -5,19 +5,26 @@ using UnityEngine.InputSystem;
 public class BoatMovement : MonoBehaviour
 {
     #region Boat Animation Variables
-    public float bobbingSpeed = 0.2f;
-    public float bobbingHeight = 0.05f;
-    public float bobbingOffset = 0.03f;
-    public float rockingStrength = 1.2f;
-    public float turnSpeed = 0.5f;
-    [SerializeField] private const float TURN_LIMIT = 10;
+    [Header("Boat Animation Variables")]
+    public float BobbingSpeed = 0.2f;
+    public float BobbingHeight = 0.05f;
+    public float BobbingOffset = 0.03f;
+    public float RockingStrength = 1.2f;
     #endregion
+
+    [Header("Boat Movement Variables")]
+    public float MaxSpeed = 0.5f;
+    public float Acceleration = 2f;
+    public float Deceleration = 0.01f;
+    public float TurnSpeed = 0.5f;
+    private float _currentSpeed = 0;
+
     private PlayerController _controls;
-    private BoatMovement _boatMovement;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Initialize the controller
         _controls = new PlayerController();
         _controls.Enable();
     }
@@ -26,7 +33,8 @@ public class BoatMovement : MonoBehaviour
     void Update()
     {
         float moveDirection = InputManager();
-        AnimateBobbing(moveDirection);
+        AnimateRotations(moveDirection);
+        Movement(moveDirection);
     }
 
     float InputManager()
@@ -34,18 +42,30 @@ public class BoatMovement : MonoBehaviour
         return _controls.Boat.Movement.ReadValue<float>();
     }
 
-    void OnMovement(InputValue value)
+    void Movement(float moveDirection)
     {
-        Debug.Log(value.Get<float>());
+        // Calculate where the boats front is facing
+        Vector3 forward = transform.forward;
+
+        // Accelerate the boat
+        if (Mathf.Abs(moveDirection) > 0 && _currentSpeed <= MaxSpeed)
+            _currentSpeed += Acceleration * Time.deltaTime;
+        else if (_currentSpeed > 0)
+            _currentSpeed -= Deceleration * Time.deltaTime;
+
+        Debug.Log(_currentSpeed);
+
+        // Move the boat in the direction it is facing
+        transform.position += forward * _currentSpeed;
     }
 
-    void AnimateBobbing(float moveDirection)
+    void AnimateRotations(float moveDirection)
     {
         // Animate the boat bobbing up and down
         Vector3 newPosition = transform.position;
 
-        float waveOffset = Mathf.Sin(Time.time * bobbingSpeed) * bobbingHeight;
-        float randomOffset = Mathf.PerlinNoise(Time.time * bobbingSpeed, 0) * bobbingOffset;
+        float waveOffset = Mathf.Sin(Time.time * BobbingSpeed) * BobbingHeight;
+        float randomOffset = Mathf.PerlinNoise(Time.time * BobbingSpeed, 0) * BobbingOffset;
 
         newPosition.y = waveOffset + randomOffset;
         transform.position = newPosition;
@@ -55,22 +75,13 @@ public class BoatMovement : MonoBehaviour
         if (currentYRotation > 180)
             currentYRotation -= 360;    // Normalize the rotation to be between -180 and 180
 
-        // Logic to handle the rotation of the boat based on the input (turning radius between 10 and 350 degrees)
-        float targetRotation = TURN_LIMIT * moveDirection;
-        float rotationY = Mathf.Lerp(currentYRotation, targetRotation, Time.deltaTime * turnSpeed);
+        // float targetRotation = TURN_LIMIT * moveDirection;
+        float rotationY = currentYRotation + moveDirection * Time.deltaTime * TurnSpeed;
 
-        // Animate the boat rotating
-        float rotationX = Mathf.Sin(Time.time * bobbingSpeed) * bobbingHeight;
-        float rotationZ = Mathf.Cos(Time.time * bobbingSpeed) * bobbingHeight;
+        // Animate the boat rocking side to side
+        float rotationX = Mathf.Sin(Time.time * BobbingSpeed) * BobbingHeight;
+        float rotationZ = Mathf.Cos(Time.time * BobbingSpeed) * BobbingHeight;
 
-        // Offset the x rotation based on the movement direction
-        float currentXRotation = transform.rotation.eulerAngles.x + rotationX;
-        if (currentXRotation > 180)
-            currentXRotation -= 360;
-
-        float offsetX = 0;
-        // offsetX = Mathf.Lerp(currentXRotation, 10.0f * -moveDirection, Time.deltaTime);
-
-        transform.rotation = Quaternion.Euler(rotationX * rockingStrength + offsetX, rotationY, rotationZ * rockingStrength / 10);
+        transform.rotation = Quaternion.Euler(rotationX * RockingStrength, rotationY, rotationZ * RockingStrength / 10);
     }
 }
