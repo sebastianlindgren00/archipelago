@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(Animator))]
 
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerController _playerControls;
     private CharacterController _characterController;
     private Animator _animator;
+    private GameObject _camera;
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -23,13 +24,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _crouchSpeed = 1.5f;
 
     private bool _isCrouching = false;
-    private bool _isHoldingSprint = false;
+    private bool _isRunning = false;
+    private bool _isTargeting = false;
     private bool _isPlayerInMotion = false;
 
     private float _moveSpeed;
 
     private Vector2 _moveDirection;
-    private Vector3 _movement;
     private Vector3 _playerVelocity;
 
     private const float _gravityConstant = -9.81f;
@@ -39,7 +40,11 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerControls = new PlayerController();
         _characterController = GetComponent<CharacterController>();
-        _animator = GetComponent<Animator>();
+        _camera = Camera.main.gameObject;
+
+        GameObject avatar = transform.Find("Avatar").gameObject;
+        _animator = avatar.GetComponent<Animator>();
+
     }
 
     private void OnEnable()
@@ -67,23 +72,76 @@ public class PlayerMovement : MonoBehaviour
         _crouchAction.Disable();
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        PlayerMove();
-        PlayerJump();
+        getInputConditions();
+        ApplyAnimation();
+        ApplyMotion();
+        // CheckConditions();
+        // ApplyMovement();
+        // PlayerJump();
         //Debug.Log("Vertical Velocity: " + _playerVelocity.y);
     }
 
-    private void PlayerMove()
+    private void getInputConditions()
     {
-        CheckConditions();
-        ApplyMovement(); 
+        const float RUNNING_ANIM_FACTOR = 1.5f;
+
+        _moveDirection = _moveAction.ReadValue<Vector2>();
+        _isRunning = _sprintAction.ReadValue<float>() > 0;
+
+        // Check if player is running, if so set the position of the running animation
+        if (_isRunning)
+        {
+            _moveDirection.y = RUNNING_ANIM_FACTOR;
+        }
     }
+
+    private void ApplyAnimation()
+    {
+        // Set the speed of the player
+        _animator.SetFloat("Speed", _moveDirection.magnitude);
+    }
+
+    private void ApplyMotion()
+    {
+        // Set player speed
+        if (_isRunning)
+        {
+            _moveSpeed = _sprintSpeed;
+        }
+        else if (_isCrouching)
+        {
+            _moveSpeed = _crouchSpeed;
+        }
+        else
+        {
+            _moveSpeed = _walkSpeed;
+        }
+
+        Vector3 moveDirection = RotatePlayer();
+
+        // Apply the movement to the player
+        _characterController.Move(_moveDirection.magnitude * moveDirection * _moveSpeed * Time.deltaTime);
+    }
+
+    private Vector3 RotatePlayer()
+    {
+        // Rotate the Avatar to face the direction of movement, according to the view from the camera
+        Vector3 moveDirection = new Vector3(_moveDirection.x, 0, _moveDirection.y);
+        Vector3 moveDirectionWorld = _camera.transform.TransformDirection(moveDirection);
+        moveDirectionWorld.y = 0;
+
+        // Rotate the avatar to face the direction of movement (making sure the rotation is kept even if the player is not moving)
+        if (moveDirectionWorld != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveDirectionWorld);
+        }
+
+        return moveDirectionWorld;
+    }
+
+
 
     private void ApplyMovement()
     {
@@ -101,8 +159,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Side moment is 0 when moving forward/backward or forward/backward combined with turning
-        _movement = forwardMovement + sideMovement;
-        _characterController.Move(_movement); 
+        Vector3 movement = forwardMovement + sideMovement;
+        _characterController.Move(movement);
 
         HandleRotation();
     }
@@ -122,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckIfIdleWhenCrouching()
     {
-        if(_isPlayerInMotion)
+        if (_isPlayerInMotion)
         {
             _animator.SetBool("isIdle", false);
         }
@@ -138,11 +196,11 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("isWalkingLeft", false);
         _animator.SetBool("isCrouching", true);
     }
-    
+
     private void CheckMovementSpeed()
     {
         _animator.SetBool("isCrouching", false);
-        if (_isHoldingSprint && _isPlayerInMotion)
+        if (_isRunning && _isPlayerInMotion)
         {
             _moveSpeed = _sprintSpeed;
             _animator.SetBool("isRunning", true);
@@ -154,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
         else if (_isPlayerInMotion)
         {
             _animator.SetBool("isRunning", false);
-            CheckDirectionOfWalking();
+            // CheckDirectionOfWalking();
         }
         else
         {
@@ -167,48 +225,48 @@ public class PlayerMovement : MonoBehaviour
             _moveSpeed = 0f;
         }
     }
-    
-    private void CheckDirectionOfWalking()
-    {
-        if (_moveDirection.y > 0.01f)
-        {
-            _moveSpeed = _walkSpeed;
-            _animator.SetBool("isWalking", true);
-            _animator.SetBool("isWalkingBackwards", false);
-            _animator.SetBool("isWalkingRight", false);
-            _animator.SetBool("isWalkingLeft", false);
-        }
-        else if (_moveDirection.y < -0.01f)
-        {
-            _moveSpeed = _crouchSpeed;
-            _animator.SetBool("isWalkingBackwards", true);
-            _animator.SetBool("isWalking", false);
-            _animator.SetBool("isWalkingRight", false);
-            _animator.SetBool("isWalkingLeft", false);
-        }
-        else if (_moveDirection.x > 0.01f && _moveDirection.y == 0)
-        {
-            _moveSpeed = _crouchSpeed;
-            _animator.SetBool("isWalkingRight", true);
-            _animator.SetBool("isWalkingLeft", false);
-            _animator.SetBool("isWalking", false);
-            _animator.SetBool("isWalkingBackwards", false);
-        }
-        else if (_moveDirection.x < -0.01f && _moveDirection.y == 0)
-        {
-            _moveSpeed = _crouchSpeed;
-            _animator.SetBool("isWalkingLeft", true);
-            _animator.SetBool("isWalkingRight", false);
-            _animator.SetBool("isWalking", false);
-            _animator.SetBool("isWalkingBackwards", false);
-        }
-    }
+
+    // private void CheckDirectionOfWalking()
+    // {
+    //     if (_moveDirection.y > 0.01f)
+    //     {
+    //         _moveSpeed = _walkSpeed;
+    //         _animator.SetBool("isWalking", true);
+    //         _animator.SetBool("isWalkingBackwards", false);
+    //         _animator.SetBool("isWalkingRight", false);
+    //         _animator.SetBool("isWalkingLeft", false);
+    //     }
+    //     else if (_moveDirection.y < -0.01f)
+    //     {
+    //         _moveSpeed = _crouchSpeed;
+    //         _animator.SetBool("isWalkingBackwards", true);
+    //         _animator.SetBool("isWalking", false);
+    //         _animator.SetBool("isWalkingRight", false);
+    //         _animator.SetBool("isWalkingLeft", false);
+    //     }
+    //     else if (_moveDirection.x > 0.01f && _moveDirection.y == 0)
+    //     {
+    //         _moveSpeed = _crouchSpeed;
+    //         _animator.SetBool("isWalkingRight", true);
+    //         _animator.SetBool("isWalkingLeft", false);
+    //         _animator.SetBool("isWalking", false);
+    //         _animator.SetBool("isWalkingBackwards", false);
+    //     }
+    //     else if (_moveDirection.x < -0.01f && _moveDirection.y == 0)
+    //     {
+    //         _moveSpeed = _crouchSpeed;
+    //         _animator.SetBool("isWalkingLeft", true);
+    //         _animator.SetBool("isWalkingRight", false);
+    //         _animator.SetBool("isWalking", false);
+    //         _animator.SetBool("isWalkingBackwards", false);
+    //     }
+    // }
 
     private void CheckConditions()
     {
-        _isHoldingSprint = _sprintAction.ReadValue<float>() > 0;
+        _isRunning = _sprintAction.ReadValue<float>() > 0;
         _isPlayerInMotion = Mathf.Abs(_moveDirection.x) > 0.01f || Mathf.Abs(_moveDirection.y) > 0.01f;
-        
+
         if (_isCrouching)
         {
             CheckIfIdleWhenCrouching();
@@ -223,7 +281,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_characterController.isGrounded)
         {
-            _playerVelocity.y = 0f;  
+            _playerVelocity.y = 0f;
         }
         else
         {
@@ -245,5 +303,6 @@ public class PlayerMovement : MonoBehaviour
     private void CrouchAction(InputAction.CallbackContext context)
     {
         _isCrouching = !_isCrouching;
+        _animator.SetBool("isCrouching", _isCrouching);
     }
 }
