@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     private bool _isPlayerInMotion = false;
 
     private float _moveSpeed;
-    private float _initialJumpVelocity;
 
     private Vector2 _moveDirection;
     private Vector3 _movement;
