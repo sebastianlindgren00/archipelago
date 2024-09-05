@@ -23,6 +23,9 @@ The goal of the game is to ascend the lighthouse, but the path to it is obstruct
 - **A Smaller Island**: Possibly hosting a small forest or another unique feature.
 - **A Tiny Island with a Lone House**: An isolated, eerie setting that could hold important clues or puzzles.
 
+## The Warden
+The player is constantly pursued by a shadow-clad figure, named The Warden. A terrifying and relentless entity that haunts the islands. The warden’s presence is always felt, either through sound or sight, and the player must stay vigilant at all times. Using light and stealth, the player can temporarily repel the warden, but it is never truly gone. As the game progresses, the warden becomes more aggressive and harder to escape.
+
 ## Inspiration
 
 The game's concept draws inspiration from atmospheric adventure games and eerie, isolated environments. The visual style and mood are inspired by works such as those found on Pinterest (as indicated in the reference link).
