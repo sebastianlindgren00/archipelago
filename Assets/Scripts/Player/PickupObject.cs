@@ -5,13 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PickupObject : MonoBehaviour
 {
-    public GameObject[] pickupItems;
-    public GameObject[] inventoryItems;
-    public GameObject player;
-    private PlayerController _playerControls;
+    [System.Serializable] public struct InventoryItem
+    {
+        public GameObject item;
+        public bool isHeld;
+    }
 
+    public GameObject[] pickupItems;
+    public List<InventoryItem> inventoryItems;
+    public GameObject player;
+
+    private PlayerController _playerControls;
     private InputAction _pickupItemAction;
     private InputAction _dropItemAction;
+
+    private bool _isHeld = false;
 
     void Awake()
     {
@@ -22,7 +30,7 @@ public class PickupObject : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pickupItems = GameObject.FindGameObjectsWithTag("PickupItem");
-        inventoryItems = new GameObject[3];
+        inventoryItems = new List<InventoryItem>(4);
     }
 
     private void OnEnable()
@@ -44,7 +52,7 @@ public class PickupObject : MonoBehaviour
 
     void Update()
     { 
-
+        
     }
 
     private void PickupItem(InputAction.CallbackContext context)
@@ -54,20 +62,11 @@ public class PickupObject : MonoBehaviour
         {
             if (Vector3.Distance(player.transform.position, item.transform.position) < 1.0f)
             {
-                if(item.activeSelf){
-                    for(int i = 0; i < inventoryItems.Length; i++)
-                    {
-                        if(inventoryItems[i] == item)
-                        {
-                            break;
-                        }
-                        if(inventoryItems[i] == null)
-                        {
-                            inventoryItems[i] = item;
-                            item.SetActive(false);
-                            break;
-                        }
-                    }
+                if (item.activeSelf)
+                {
+                    inventoryItems.Add(new InventoryItem { item = item, isHeld = false });
+                    item.SetActive(false); 
+                    break; 
                 }
             }
         }
@@ -76,14 +75,14 @@ public class PickupObject : MonoBehaviour
     private void DropItem(InputAction.CallbackContext context)
     {
         Debug.Log("Dropping item");
-        for(int i = 0; i < inventoryItems.Length; i++)
+        foreach (InventoryItem i in inventoryItems)
         {
-            if(inventoryItems[i] != null)
+            if (i.item.activeSelf == false)
             {
-                inventoryItems[i].SetActive(true);
-                inventoryItems[i].transform.position = player.transform.position + player.transform.forward;
-                inventoryItems[i] = null;
-                break;
+                i.item.SetActive(true); 
+                i.item.transform.position = player.transform.position + player.transform.forward; 
+                inventoryItems.Remove(i);
+                break; 
             }
         }
     }
