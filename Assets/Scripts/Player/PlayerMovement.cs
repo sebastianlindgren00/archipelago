@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     private bool _isPlayerInMotion = false;
 
     private float _moveSpeed;
-    private float _initialJumpVelocity;
 
     private Vector2 _moveDirection;
     private Vector3 _movement;
@@ -70,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        _initialJumpVelocity = Mathf.Sqrt(_jumpHeight * -2f * _gravityConstant);
+        
     }
 
     void Update()
@@ -222,7 +221,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerJump()
     {
-        _playerVelocity.y += _gravityConstant * Time.deltaTime;
+        if (_characterController.isGrounded)
+        {
+            _playerVelocity.y = 0f;  
+        }
+        else
+        {
+            _playerVelocity.y += _gravityConstant * Time.deltaTime;
+        }
         _characterController.Move(_playerVelocity * Time.deltaTime);
     }
 

@@ -145,6 +145,69 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PickupItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3031cf4-699a-4853-8658-c56ffa84d8e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""16a23e31-99cd-4539-9234-738abbcc0e24"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventorySlot1"",
+                    ""type"": ""Button"",
+                    ""id"": ""8db0dff8-5add-43b3-9d2c-e8fbc217b674"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventorySlot2"",
+                    ""type"": ""Button"",
+                    ""id"": ""064ed564-3830-46da-af91-d292c39cf02b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventorySlot3"",
+                    ""type"": ""Button"",
+                    ""id"": ""9135835e-3efb-443e-aec6-12c697895f62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventorySlot4"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f511afe-9362-4eaa-aaa2-6104a43429d8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventorySlotIndexIncrease"",
+                    ""type"": ""Button"",
+                    ""id"": ""51703c0e-008c-405d-9ec0-ab699db6e0f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -279,6 +342,105 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b44c0a09-c7da-4f62-b85f-103aceab3995"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PickupItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c73d038f-eddd-42b4-a965-f40857e55f4f"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PickupItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2af5de4-1a67-490a-8a85-9af4ef54c364"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0fa7f96f-09d6-447b-9506-7ec6bc10d43b"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""236b5864-491a-4782-9d1b-c8afb40da647"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventorySlot1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""382d7350-75ee-42c8-ab55-c26a6f007d37"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventorySlot2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3b552f7-3e88-4270-8329-4fe05e081142"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventorySlot3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8ca6f275-420c-4dd6-8ee3-bad3242a77ed"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventorySlot4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5eb7a728-d281-4a3c-aba3-14c2895ed933"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventorySlotIndexIncrease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -294,6 +456,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_PickupItem = m_Player.FindAction("PickupItem", throwIfNotFound: true);
+        m_Player_DropItem = m_Player.FindAction("DropItem", throwIfNotFound: true);
+        m_Player_InventorySlot1 = m_Player.FindAction("InventorySlot1", throwIfNotFound: true);
+        m_Player_InventorySlot2 = m_Player.FindAction("InventorySlot2", throwIfNotFound: true);
+        m_Player_InventorySlot3 = m_Player.FindAction("InventorySlot3", throwIfNotFound: true);
+        m_Player_InventorySlot4 = m_Player.FindAction("InventorySlot4", throwIfNotFound: true);
+        m_Player_InventorySlotIndexIncrease = m_Player.FindAction("InventorySlotIndexIncrease", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -405,6 +574,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_PickupItem;
+    private readonly InputAction m_Player_DropItem;
+    private readonly InputAction m_Player_InventorySlot1;
+    private readonly InputAction m_Player_InventorySlot2;
+    private readonly InputAction m_Player_InventorySlot3;
+    private readonly InputAction m_Player_InventorySlot4;
+    private readonly InputAction m_Player_InventorySlotIndexIncrease;
     public struct PlayerActions
     {
         private @PlayerController m_Wrapper;
@@ -413,6 +589,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @PickupItem => m_Wrapper.m_Player_PickupItem;
+        public InputAction @DropItem => m_Wrapper.m_Player_DropItem;
+        public InputAction @InventorySlot1 => m_Wrapper.m_Player_InventorySlot1;
+        public InputAction @InventorySlot2 => m_Wrapper.m_Player_InventorySlot2;
+        public InputAction @InventorySlot3 => m_Wrapper.m_Player_InventorySlot3;
+        public InputAction @InventorySlot4 => m_Wrapper.m_Player_InventorySlot4;
+        public InputAction @InventorySlotIndexIncrease => m_Wrapper.m_Player_InventorySlotIndexIncrease;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -434,6 +617,27 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Crouch.started += instance.OnCrouch;
             @Crouch.performed += instance.OnCrouch;
             @Crouch.canceled += instance.OnCrouch;
+            @PickupItem.started += instance.OnPickupItem;
+            @PickupItem.performed += instance.OnPickupItem;
+            @PickupItem.canceled += instance.OnPickupItem;
+            @DropItem.started += instance.OnDropItem;
+            @DropItem.performed += instance.OnDropItem;
+            @DropItem.canceled += instance.OnDropItem;
+            @InventorySlot1.started += instance.OnInventorySlot1;
+            @InventorySlot1.performed += instance.OnInventorySlot1;
+            @InventorySlot1.canceled += instance.OnInventorySlot1;
+            @InventorySlot2.started += instance.OnInventorySlot2;
+            @InventorySlot2.performed += instance.OnInventorySlot2;
+            @InventorySlot2.canceled += instance.OnInventorySlot2;
+            @InventorySlot3.started += instance.OnInventorySlot3;
+            @InventorySlot3.performed += instance.OnInventorySlot3;
+            @InventorySlot3.canceled += instance.OnInventorySlot3;
+            @InventorySlot4.started += instance.OnInventorySlot4;
+            @InventorySlot4.performed += instance.OnInventorySlot4;
+            @InventorySlot4.canceled += instance.OnInventorySlot4;
+            @InventorySlotIndexIncrease.started += instance.OnInventorySlotIndexIncrease;
+            @InventorySlotIndexIncrease.performed += instance.OnInventorySlotIndexIncrease;
+            @InventorySlotIndexIncrease.canceled += instance.OnInventorySlotIndexIncrease;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -450,6 +654,27 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Crouch.started -= instance.OnCrouch;
             @Crouch.performed -= instance.OnCrouch;
             @Crouch.canceled -= instance.OnCrouch;
+            @PickupItem.started -= instance.OnPickupItem;
+            @PickupItem.performed -= instance.OnPickupItem;
+            @PickupItem.canceled -= instance.OnPickupItem;
+            @DropItem.started -= instance.OnDropItem;
+            @DropItem.performed -= instance.OnDropItem;
+            @DropItem.canceled -= instance.OnDropItem;
+            @InventorySlot1.started -= instance.OnInventorySlot1;
+            @InventorySlot1.performed -= instance.OnInventorySlot1;
+            @InventorySlot1.canceled -= instance.OnInventorySlot1;
+            @InventorySlot2.started -= instance.OnInventorySlot2;
+            @InventorySlot2.performed -= instance.OnInventorySlot2;
+            @InventorySlot2.canceled -= instance.OnInventorySlot2;
+            @InventorySlot3.started -= instance.OnInventorySlot3;
+            @InventorySlot3.performed -= instance.OnInventorySlot3;
+            @InventorySlot3.canceled -= instance.OnInventorySlot3;
+            @InventorySlot4.started -= instance.OnInventorySlot4;
+            @InventorySlot4.performed -= instance.OnInventorySlot4;
+            @InventorySlot4.canceled -= instance.OnInventorySlot4;
+            @InventorySlotIndexIncrease.started -= instance.OnInventorySlotIndexIncrease;
+            @InventorySlotIndexIncrease.performed -= instance.OnInventorySlotIndexIncrease;
+            @InventorySlotIndexIncrease.canceled -= instance.OnInventorySlotIndexIncrease;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -477,5 +702,12 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnPickupItem(InputAction.CallbackContext context);
+        void OnDropItem(InputAction.CallbackContext context);
+        void OnInventorySlot1(InputAction.CallbackContext context);
+        void OnInventorySlot2(InputAction.CallbackContext context);
+        void OnInventorySlot3(InputAction.CallbackContext context);
+        void OnInventorySlot4(InputAction.CallbackContext context);
+        void OnInventorySlotIndexIncrease(InputAction.CallbackContext context);
     }
 }
