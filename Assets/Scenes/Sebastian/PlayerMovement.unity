@@ -436,6 +436,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aeaf76bb7d6eae3429518973761567bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 859676560}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aeaf76bb7d6eae3429518973761567bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 859676564}
   m_SourcePrefab: {fileID: 100100000, guid: aeaf76bb7d6eae3429518973761567bf, type: 3}
 --- !u!1 &859676559 stripped
 GameObject:
@@ -510,6 +513,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aeaf76bb7d6eae3429518973761567bf, type: 3}
   m_PrefabInstance: {fileID: 775262356}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &859676564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859676559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3b45267bd33346ed9ae48f34b6a7fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupItems: []
+  inventoryItems: []
+  player: {fileID: 0}
 --- !u!1 &887655873
 GameObject:
   m_ObjectHideFlags: 0
