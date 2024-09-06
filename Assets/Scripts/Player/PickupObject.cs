@@ -34,7 +34,7 @@ public class PickupObject : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pickupItems = GameObject.FindGameObjectsWithTag("PickupItem");
-        inventoryItems = new List<InventoryItem>(4); // Initialize list
+        inventoryItems = new List<InventoryItem>(4); // Initialize 3 inventory slots
     }
 
     private void OnEnable()
@@ -99,7 +99,7 @@ public class PickupObject : MonoBehaviour
         Debug.Log("Picking up item");
         foreach (GameObject item in pickupItems)
         {
-            if (Vector3.Distance(player.transform.position, item.transform.position) < 1.0f)
+            if (Vector3.Distance(player.transform.position, item.transform.position) < 2.0f)
             {
                 if (item.activeSelf)
                 {

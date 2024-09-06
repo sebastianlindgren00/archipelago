@@ -1509,7 +1509,7 @@ GameObject:
   - component: {fileID: 7576429244589066822}
   - component: {fileID: 1766111365898359743}
   - component: {fileID: 4240456447036118747}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1664,6 +1664,10 @@ PrefabInstance:
     - target: {fileID: 6835932477658251617, guid: fe2796d8c678f4ec2997ca82b8b86e21, type: 3}
       propertyPath: m_Name
       value: Lantern
+      objectReference: {fileID: 0}
+    - target: {fileID: 6835932477658251617, guid: fe2796d8c678f4ec2997ca82b8b86e21, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
