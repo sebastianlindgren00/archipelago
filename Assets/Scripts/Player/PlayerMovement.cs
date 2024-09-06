@@ -105,6 +105,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMotion()
     {
+        // Apply gravity
+        int isGrounded = _characterController.isGrounded ? 0 : 1;
+        _playerVelocity.y += _gravityConstant * Time.deltaTime * isGrounded;
+
         // Set player speed
         if (_isRunning)
         {
@@ -120,9 +124,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 moveDirection = RotatePlayer();
+        _playerVelocity.x = moveDirection.x * _moveSpeed;
+        _playerVelocity.z = moveDirection.z * _moveSpeed;
 
         // Apply the movement to the player
-        _characterController.Move(_moveDirection.magnitude * moveDirection * _moveSpeed * Time.deltaTime);
+        _characterController.Move(_playerVelocity * Time.deltaTime);
     }
 
     private Vector3 RotatePlayer()
