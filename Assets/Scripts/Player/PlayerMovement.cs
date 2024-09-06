@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -11,36 +12,47 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController _playerControls;
     private CharacterController _characterController;
     private Animator _animator;
-    private GameObject _camera;
+    private GameObject _cameraGroup;
+    private CameraManager _cameraManager;
 
+    #region Controller Input Actions
     private InputAction _moveAction;
     private InputAction _jumpAction;
     private InputAction _sprintAction;
     private InputAction _crouchAction;
+    #endregion
 
+    #region Player Movement Settings
+    [Header("Player Movement Settings")]
     [SerializeField] private float _jumpHeight = 0.5f;
     [SerializeField] private float _walkSpeed = 2.5f;
     [SerializeField] private float _sprintSpeed = 4.0f;
     [SerializeField] private float _crouchSpeed = 1.5f;
+    [SerializeField] private float _movementSpeedSmoothing = 3f;
+    [SerializeField] private float _turnSpeedSmoothing = 30f;
+    private const float _gravityConstant = -9.81f;
+    private const float _rotationSpeed = 180.0f;
+    #endregion
 
+    #region Player Movement States
     private bool _isCrouching = false;
     private bool _isRunning = false;
     private bool _isTargeting = false;
     private bool _isPlayerInMotion = false;
+    #endregion
 
+    #region Player Movement Variables
     private float _moveSpeed;
-
     private Vector2 _moveDirection;
     private Vector3 _playerVelocity;
-
-    private const float _gravityConstant = -9.81f;
-    private const float _rotationSpeed = 180.0f;
+    #endregion
 
     void Awake()
     {
         _playerControls = new PlayerController();
         _characterController = GetComponent<CharacterController>();
-        _camera = Camera.main.gameObject;
+        _cameraGroup = GameObject.FindGameObjectsWithTag("CameraGroup")[0];
+        _cameraManager = _cameraGroup.GetComponent<CameraManager>();
 
         GameObject avatar = transform.Find("Avatar").gameObject;
         _animator = avatar.GetComponent<Animator>();
@@ -58,6 +70,8 @@ public class PlayerMovement : MonoBehaviour
 
         _sprintAction = _playerControls.Player.Sprint;
         _sprintAction.Enable();
+        _sprintAction.performed += SprintAction;
+        _sprintAction.canceled += SprintAction;
 
         _crouchAction = _playerControls.Player.Crouch;
         _crouchAction.Enable();
@@ -77,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
         getInputConditions();
         ApplyAnimation();
         ApplyMotion();
+
         // CheckConditions();
         // ApplyMovement();
         // PlayerJump();
@@ -87,7 +102,10 @@ public class PlayerMovement : MonoBehaviour
     {
         const float RUNNING_ANIM_FACTOR = 1.5f;
 
-        _moveDirection = _moveAction.ReadValue<Vector2>();
+        // Smooth out the movement input to simulate acceleration
+        Vector2 moveInput = _moveAction.ReadValue<Vector2>();
+        _moveDirection = Vector2.MoveTowards(_moveDirection, moveInput, _movementSpeedSmoothing * Time.deltaTime);
+
         _isRunning = _sprintAction.ReadValue<float>() > 0;
 
         // Check if player is running, if so set the position of the running animation
@@ -105,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMotion()
     {
+        // TODO: Movement towards rotation no longer works :(
         // Apply gravity
         int isGrounded = _characterController.isGrounded ? 0 : 1;
         _playerVelocity.y += _gravityConstant * Time.deltaTime * isGrounded;
@@ -123,9 +142,9 @@ public class PlayerMovement : MonoBehaviour
             _moveSpeed = _walkSpeed;
         }
 
-        Vector3 moveDirection = RotatePlayer();
-        _playerVelocity.x = moveDirection.x * _moveSpeed;
-        _playerVelocity.z = moveDirection.z * _moveSpeed;
+        Vector3 playerRotation = RotatePlayer();
+        _playerVelocity.x = playerRotation.x * _moveSpeed * _moveDirection.magnitude;
+        _playerVelocity.z = playerRotation.z * _moveSpeed * _moveDirection.magnitude;
 
         // Apply the movement to the player
         _characterController.Move(_playerVelocity * Time.deltaTime);
@@ -135,13 +154,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // Rotate the Avatar to face the direction of movement, according to the view from the camera
         Vector3 moveDirection = new Vector3(_moveDirection.x, 0, _moveDirection.y);
-        Vector3 moveDirectionWorld = _camera.transform.TransformDirection(moveDirection);
+        Vector3 moveDirectionWorld = _cameraGroup.transform.TransformDirection(moveDirection);
         moveDirectionWorld.y = 0;
+        moveDirectionWorld.Normalize();
+        Debug.DrawRay(transform.position, moveDirectionWorld, Color.red);
 
         // Rotate the avatar to face the direction of movement (making sure the rotation is kept even if the player is not moving)
         if (moveDirectionWorld != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(moveDirectionWorld);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(moveDirectionWorld), _turnSpeedSmoothing * Time.deltaTime);
         }
 
         return moveDirectionWorld;
@@ -310,5 +331,17 @@ public class PlayerMovement : MonoBehaviour
     {
         _isCrouching = !_isCrouching;
         _animator.SetBool("isCrouching", _isCrouching);
+    }
+
+    private void SprintAction(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            _cameraManager.setFOV("run");
+        }
+        else if (context.canceled)
+        {
+            _cameraManager.setFOV("default");
+        }
     }
 }
