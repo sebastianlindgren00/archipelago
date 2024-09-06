@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - PickupItem
+  - CameraGroup
   layers:
   - Default
   - TransparentFX
