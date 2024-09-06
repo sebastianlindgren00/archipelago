@@ -186,6 +186,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmissiveLantern
       objectReference: {fileID: 0}
+    - target: {fileID: 8303206371154218864, guid: 24b9b3c1bf8874d85a31cc6f3ff936e5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 07c9f98fe9d4c4f2aaab4ab0bc040b55, type: 2}
+    - target: {fileID: 8303206371154218864, guid: 24b9b3c1bf8874d85a31cc6f3ff936e5, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1618aef024adcf04db866de3f5010c67, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
