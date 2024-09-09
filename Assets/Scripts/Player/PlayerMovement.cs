@@ -125,7 +125,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMotion()
     {
-        // TODO: Movement towards rotation no longer works :(
         // Apply gravity
         int isGrounded = _characterController.isGrounded ? 0 : 1;
         _playerVelocity.y += _gravityConstant * Time.deltaTime * isGrounded;
@@ -191,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movement = forwardMovement + sideMovement;
         _characterController.Move(movement);
 
-        HandleRotation();
+        // HandleRotation();
     }
 
     private void HandleRotation()
