@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController _playerControls;
     private CharacterController _characterController;
     private Animator _animator;
-    private GameObject _cameraGroup;
+    private GameObject _mainCamera;
     private CameraManager _cameraManager;
 
     #region Controller Input Actions
@@ -51,8 +51,10 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerControls = new PlayerController();
         _characterController = GetComponent<CharacterController>();
-        _cameraGroup = GameObject.FindGameObjectsWithTag("CameraGroup")[0];
-        _cameraManager = _cameraGroup.GetComponent<CameraManager>();
+
+        GameObject cameraGroup = GameObject.FindGameObjectsWithTag("CameraGroup")[0];
+        _mainCamera = cameraGroup.transform.Find("MainCamera").gameObject;
+        _cameraManager = cameraGroup.GetComponent<CameraManager>();
 
         GameObject avatar = transform.Find("Avatar").gameObject;
         _animator = avatar.GetComponent<Animator>();
@@ -154,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Rotate the Avatar to face the direction of movement, according to the view from the camera
         Vector3 moveDirection = new Vector3(_moveDirection.x, 0, _moveDirection.y);
-        Vector3 moveDirectionWorld = _cameraGroup.transform.TransformDirection(moveDirection);
+        Vector3 moveDirectionWorld = _mainCamera.transform.TransformDirection(moveDirection);
         moveDirectionWorld.y = 0;
         moveDirectionWorld.Normalize();
         Debug.DrawRay(transform.position, moveDirectionWorld, Color.red);
@@ -338,10 +340,12 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed)
         {
             _cameraManager.setFOV("run");
+            _cameraManager.setNoise(0.5f, 0.5f);
         }
         else if (context.canceled)
         {
-            _cameraManager.setFOV("default");
+            _cameraManager.setFOV("default", 1f);
+            _cameraManager.setNoise(0f, 0f);
         }
     }
 }
