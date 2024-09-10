@@ -924,9 +924,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3580331930783048762, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_Range
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580331930783048762, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_AreaSize.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580331930783048762, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_AreaSize.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3717148106679855436, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.051635
+      objectReference: {fileID: 0}
+    - target: {fileID: 3717148106679855436, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.051635
+      objectReference: {fileID: 0}
+    - target: {fileID: 3717148106679855436, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.051635
+      objectReference: {fileID: 0}
+    - target: {fileID: 5325116187097698749, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5325116187097698749, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_Color.b
+      value: 0.33333334
+      objectReference: {fileID: 0}
     - target: {fileID: 6931977189948335517, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_Name
       value: EmissiveLantern
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931977189948335517, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -969,7 +1005,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2292978041223069635, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
