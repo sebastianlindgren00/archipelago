@@ -81,6 +81,7 @@ public class PickupObject : MonoBehaviour
         _inventorySlot2.Disable();
         _inventorySlot3.Disable();
         _inventorySlot4.Disable();
+        _toggleLanternAction.Disable();
     }
 
     void Update()
@@ -198,7 +199,7 @@ public class PickupObject : MonoBehaviour
 
     private void ToggleLantern(InputAction.CallbackContext context)
     {
-        if(inventoryItems[0].item.name == "PickupLantern")
+        if(inventoryItems.Count >= 1 && inventoryItems[0].item.name == "PickupLantern")
         {
             if (_lanternOn)
             {
