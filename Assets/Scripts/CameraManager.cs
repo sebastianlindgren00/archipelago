@@ -6,16 +6,25 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public CinemachineFreeLook _virtualCamera;
     public Dictionary<string, float> fovs = new Dictionary<string, float>
     {
         {"default", 50f},
         {"run", 30f}
     };
+    private CinemachineFreeLook _virtualCamera;
+    public bool limitFPS = false;
+    private const int targetFrameRate = 60;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Set the target frame rate (for when streaming the game)
+        if (limitFPS)
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = targetFrameRate;
+        }
+
         // Hide the mouse cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

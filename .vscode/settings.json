@@ -56,5 +56,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "archipelago.sln"
+    "dotnet.defaultSolution": "archipelago.sln",
+    "cSpell.words": [
+        "Cinemachine"
+    ]
 }
