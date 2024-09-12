@@ -16,6 +16,7 @@ public class PickupObject : MonoBehaviour
     public GameObject[] pickupItems;
     public List<InventoryItem> inventoryItems;
     public GameObject player;
+    public GameObject lantern;
 
     private PlayerController _playerControls;
     private InputAction _pickupItemAction;
@@ -24,6 +25,9 @@ public class PickupObject : MonoBehaviour
     private InputAction _inventorySlot2;
     private InputAction _inventorySlot3;
     private InputAction _inventorySlot4;
+    private InputAction _toggleLanternAction;
+
+    private bool _lanternOn = false;
 
     void Awake()
     {
@@ -32,6 +36,7 @@ public class PickupObject : MonoBehaviour
 
     void Start()
     {
+        lantern.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         pickupItems = GameObject.FindGameObjectsWithTag("PickupItem");
         inventoryItems = new List<InventoryItem>(4); // Initialize 3 inventory slots
@@ -62,6 +67,10 @@ public class PickupObject : MonoBehaviour
         _inventorySlot4 = _playerControls.Player.InventorySlot4;
         _inventorySlot4.Enable();
         _inventorySlot4.performed += InventorySlot4;
+
+        _toggleLanternAction = _playerControls.Player.ToggleLantern;
+        _toggleLanternAction.Enable();
+        _toggleLanternAction.performed += ToggleLantern;
     }
 
     private void OnDisable()
@@ -116,9 +125,9 @@ public class PickupObject : MonoBehaviour
         Debug.Log("Dropping item");
         foreach (InventoryItem i in inventoryItems)
         {
-            if (i.isHeld)
+            if (i.isHeld && inventoryItems.Count > 1)
             {
-                i.item.transform.position = player.transform.position + player.transform.forward;
+                i.item.transform.position = player.transform.position + player.transform.up;
                 i.item.SetActive(true);
                 i.isHeld = false;
                 inventoryItems.Remove(i);
@@ -128,21 +137,6 @@ public class PickupObject : MonoBehaviour
     }
 
     private void InventorySlot1(InputAction.CallbackContext context)
-    {
-        inventoryItems[0].item.SetActive(true);
-
-        foreach (InventoryItem item in inventoryItems)
-        {
-            if (item.isHeld)
-            {
-                item.isHeld = false;
-            }
-        }
-
-        inventoryItems[0].isHeld = true;
-    }
-
-    private void InventorySlot2(InputAction.CallbackContext context)
     {
         inventoryItems[1].item.SetActive(true);
 
@@ -157,7 +151,7 @@ public class PickupObject : MonoBehaviour
         inventoryItems[1].isHeld = true;
     }
 
-    private void InventorySlot3(InputAction.CallbackContext context)
+    private void InventorySlot2(InputAction.CallbackContext context)
     {
         inventoryItems[2].item.SetActive(true);
 
@@ -172,7 +166,7 @@ public class PickupObject : MonoBehaviour
         inventoryItems[2].isHeld = true;
     }
 
-    private void InventorySlot4(InputAction.CallbackContext context)
+    private void InventorySlot3(InputAction.CallbackContext context)
     {
         inventoryItems[3].item.SetActive(true);
 
@@ -185,5 +179,41 @@ public class PickupObject : MonoBehaviour
         }
 
         inventoryItems[3].isHeld = true;
+    }
+
+    private void InventorySlot4(InputAction.CallbackContext context)
+    {
+        inventoryItems[4].item.SetActive(true);
+
+        foreach (InventoryItem item in inventoryItems)
+        {
+            if (item.isHeld)
+            {
+                item.isHeld = false;
+            }
+        }
+
+        inventoryItems[4].isHeld = true;
+    }
+
+    private void ToggleLantern(InputAction.CallbackContext context)
+    {
+        if(inventoryItems[0].item.name == "PickupLantern")
+        {
+            if (_lanternOn)
+            {
+                lantern.SetActive(false);
+                _lanternOn = false;
+            }
+            else
+            {
+                lantern.SetActive(true);
+                _lanternOn = true;
+            }
+        }
+        else
+        {
+            Debug.Log("You don't have the lantern in your inventory");
+        }
     }
 }
