@@ -107,11 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba1f02c56fbf4b418acd2cdd9ae5d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightOffset: {x: 0, y: 0, z: 0}
   enableFlicker: 1
-  minIntensity: 1.2
-  maxIntensity: 2
-  flickerSpeed: 0.1
 --- !u!1001 &7850404544498768076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -180,6 +176,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 24b9b3c1bf8874d85a31cc6f3ff936e5, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: d28d922f23585433cabbf9934b4704f1, type: 2}
     - target: {fileID: 919132149155446097, guid: 24b9b3c1bf8874d85a31cc6f3ff936e5, type: 3}
       propertyPath: m_Name
       value: EmissiveLantern
