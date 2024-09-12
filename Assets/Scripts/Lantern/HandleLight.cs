@@ -10,10 +10,8 @@ public class HandleLight : MonoBehaviour
 
     private Vector3 _lanternPos = new Vector3(0, 0, 0);
 
-    PickupObject.inventoryItems _lanternItem; 
-
     public bool enableFlicker = true;
-    private const float MIN_INTENSITY = 1.0f;
+    private const float MIN_INTENSITY = 1.4f;
     public const float MAX_INTENSITY = 2.0f;
     public const float FLICKER_SPEED = 0.2f;
 
@@ -30,10 +28,5 @@ public class HandleLight : MonoBehaviour
         {
             _lanternLight.intensity = Mathf.Lerp(MIN_INTENSITY, MAX_INTENSITY, Mathf.PingPong(Time.time * FLICKER_SPEED, 1));
         }
-    }
-
-    private void checkIfHeld()
-    {
-
     }
 }
