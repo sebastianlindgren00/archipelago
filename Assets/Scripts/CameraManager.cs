@@ -11,6 +11,13 @@ public class CameraManager : MonoBehaviour
         {"default", 50f},
         {"run", 30f}
     };
+    [Header("Sensitivity")]
+    [Range(0.2f, 2f)]
+    public float mouseSensitivityX = 1f;
+    [Range(0.2f, 2f)]
+    public float mouseSensitivityY = 1f;
+    private Vector2 defaultSensitivity;
+
     private CinemachineFreeLook _virtualCamera;
     public bool limitFPS = false;
     private const int targetFrameRate = 60;
@@ -34,6 +41,16 @@ public class CameraManager : MonoBehaviour
 
         // Set the default FOV
         setFOV("default");
+
+        // Set the default sensitivity
+        defaultSensitivity = new Vector2(_virtualCamera.m_XAxis.m_MaxSpeed, _virtualCamera.m_YAxis.m_MaxSpeed);
+    }
+
+    void Update()
+    {
+        // Set the sensitivity 
+        _virtualCamera.m_XAxis.m_MaxSpeed = defaultSensitivity.x * mouseSensitivityX;
+        _virtualCamera.m_YAxis.m_MaxSpeed = defaultSensitivity.y * mouseSensitivityY;
     }
 
     public void setNoise(float amplitude, float frequency)
@@ -53,10 +70,10 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(transitionFOV(fovs[key], duration));
+        StartCoroutine(transitionFOV(fovs[key], fovs[key], duration));
     }
 
-    IEnumerator transitionFOV(float endFOV, float duration)
+    IEnumerator transitionFOV(float startFOV, float endFOV, float duration)
     {
         if (duration == 0)
         {
@@ -64,13 +81,24 @@ public class CameraManager : MonoBehaviour
             yield break;
         }
 
-        float startFOV = _virtualCamera.m_Lens.FieldOfView;
         float time = 0;
         while (time < duration)
         {
             _virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(startFOV, endFOV, time / duration);
             yield return null;
             time += Time.deltaTime;
+        }
+    }
+
+    public struct Range
+    {
+        public float start;
+        public float end;
+
+        public Range(float start, float end)
+        {
+            this.start = start;
+            this.end = end;
         }
     }
 }

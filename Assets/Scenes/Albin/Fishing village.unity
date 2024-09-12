@@ -1098,7 +1098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314852347706276037, guid: 8127bc1e1a087334a9a283240eb82080, type: 3}
       propertyPath: limitFPS
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7417924925329154568, guid: 8127bc1e1a087334a9a283240eb82080, type: 3}
       propertyPath: m_HDR
