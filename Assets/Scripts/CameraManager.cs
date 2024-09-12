@@ -12,9 +12,9 @@ public class CameraManager : MonoBehaviour
         {"run", 30f}
     };
     [Header("Sensitivity")]
-    [Range(0.2f, 2f)]
-    public float mouseSensitivityX = 1f;
-    [Range(0.2f, 2f)]
+    [Range(0.1f, 10f)]
+    public float mouseSensitivityX = 3f;
+    [Range(0.1f, 5f)]
     public float mouseSensitivityY = 1f;
     private Vector2 defaultSensitivity;
 
