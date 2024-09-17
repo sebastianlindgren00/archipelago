@@ -1,32 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
-
-[RequireComponent(typeof(Light))]
 public class HandleLight : MonoBehaviour
 {
-    private Light _lanternLight;
+    [SerializeField] private InputReader _inputReader = default;
 
-    private Vector3 _lanternPos = new Vector3(0, 0, 0);
+    private GameObject lantern;
+    private bool _lanternOn = false;
+    private GameObject _player;
+    private List<PickupObject.InventoryItem> inventoryItems;
 
-    public bool enableFlicker = true;
-    private const float MIN_INTENSITY = 1.4f;
-    public const float MAX_INTENSITY = 2.0f;
-    public const float FLICKER_SPEED = 0.2f;
+    private void OnEnable()
+    {
+        _inputReader.ToggleLanternEvent += ToggleLantern;
+    }
+
+    private void OnDisable()
+    {
+        _inputReader.ToggleLanternEvent -= ToggleLantern;
+    }
 
     void Start()
     {
-        _lanternLight = GetComponent<Light>();
-        transform.localPosition = _lanternPos;
+        lantern = GameObject.FindGameObjectWithTag("Lantern");
+        lantern.SetActive(false);
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
-        // Flicker
-        if (enableFlicker && _lanternLight != null)
+        inventoryItems = _player.GetComponent<PickupObject>().inventoryItems;
+    }
+
+    private void ToggleLantern()
+    {
+        Debug.Log("Toggling lantern");
+        if (inventoryItems.Count >= 1 && inventoryItems[0].item.name == "PickupLantern")
         {
-            _lanternLight.intensity = Mathf.Lerp(MIN_INTENSITY, MAX_INTENSITY, Mathf.PingPong(Time.time * FLICKER_SPEED, 1));
+            _lanternOn = !_lanternOn;
+            lantern.SetActive(_lanternOn);
+            lantern.GetComponent<Light>().enabled = _lanternOn;
+        }
+        else
+        {
+            Debug.Log("You don't have the lantern in your inventory");
         }
     }
 }

@@ -709,6 +709,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2644789238391252974, guid: 9acf734ab159a6f4e9ab606606a711df, type: 3}
+      propertyPath: _inputReader
+      value: 
+      objectReference: {fileID: 11400000, guid: b3ebb34d390024a48b45f7e4619cbabd, type: 2}
     - target: {fileID: 4928597427226225838, guid: 9acf734ab159a6f4e9ab606606a711df, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.005
@@ -1013,6 +1017,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1547981185}
   - component: {fileID: 1547981184}
+  - component: {fileID: 1547981186}
+  - component: {fileID: 1547981187}
   m_Layer: 0
   m_Name: Local Volumetric Fog
   m_TagString: Untagged
@@ -1071,6 +1077,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1547981186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547981183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a1441274869477bbe729709579eadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1547981187
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547981183}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.16, y: 0.3, z: 0.23}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1595752026
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class PickupObject : MonoBehaviour
 {
-    [System.Serializable] 
-    public class InventoryItem // Changed from struct to class
+    [System.Serializable]
+    public class InventoryItem
     {
         public GameObject item;
         public bool isHeld;
@@ -16,76 +13,38 @@ public class PickupObject : MonoBehaviour
     public GameObject[] pickupItems;
     public List<InventoryItem> inventoryItems;
     public GameObject player;
-    public GameObject lantern;
 
-    private PlayerController _playerControls;
-    private InputAction _pickupItemAction;
-    private InputAction _dropItemAction;
-    private InputAction _inventorySlot1;
-    private InputAction _inventorySlot2;
-    private InputAction _inventorySlot3;
-    private InputAction _inventorySlot4;
-    private InputAction _toggleLanternAction;
-
-    private bool _lanternOn = false;
-
-    void Awake()
-    {
-        _playerControls = new PlayerController();
-    }
+    [SerializeField] private InputReader _inputReader = default;
 
     void Start()
     {
-        lantern.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         pickupItems = GameObject.FindGameObjectsWithTag("PickupItem");
-        inventoryItems = new List<InventoryItem>(4); // Initialize 3 inventory slots
+        inventoryItems = new List<InventoryItem>(4); // Initialize 4 inventory slots
     }
 
     private void OnEnable()
     {
-        _pickupItemAction = _playerControls.Player.PickupItem;
-        _pickupItemAction.Enable();
-        _pickupItemAction.performed += PickupItem;
-
-        _dropItemAction = _playerControls.Player.DropItem;
-        _dropItemAction.Enable();
-        _dropItemAction.performed += DropItem;
-
-        _inventorySlot1 = _playerControls.Player.InventorySlot1;
-        _inventorySlot1.Enable();
-        _inventorySlot1.performed += InventorySlot1;
-
-        _inventorySlot2 = _playerControls.Player.InventorySlot2;
-        _inventorySlot2.Enable();
-        _inventorySlot2.performed += InventorySlot2;
-
-        _inventorySlot3 = _playerControls.Player.InventorySlot3;
-        _inventorySlot3.Enable();
-        _inventorySlot3.performed += InventorySlot3;
-
-        _inventorySlot4 = _playerControls.Player.InventorySlot4;
-        _inventorySlot4.Enable();
-        _inventorySlot4.performed += InventorySlot4;
-
-        _toggleLanternAction = _playerControls.Player.ToggleLantern;
-        _toggleLanternAction.Enable();
-        _toggleLanternAction.performed += ToggleLantern;
+        _inputReader.PickupItemEvent += PickupItem;
+        _inputReader.DropItemEvent += DropItem;
+        _inputReader.InventorySlot1Event += InventorySlot1;
+        _inputReader.InventorySlot2Event += InventorySlot2;
+        _inputReader.InventorySlot3Event += InventorySlot3;
+        _inputReader.InventorySlot4Event += InventorySlot4;
     }
 
     private void OnDisable()
     {
-        _pickupItemAction.Disable();
-        _dropItemAction.Disable();
-        _inventorySlot1.Disable();
-        _inventorySlot2.Disable();
-        _inventorySlot3.Disable();
-        _inventorySlot4.Disable();
-        _toggleLanternAction.Disable();
+        _inputReader.PickupItemEvent -= PickupItem;
+        _inputReader.DropItemEvent -= DropItem;
+        _inputReader.InventorySlot1Event -= InventorySlot1;
+        _inputReader.InventorySlot2Event -= InventorySlot2;
+        _inputReader.InventorySlot3Event -= InventorySlot3;
+        _inputReader.InventorySlot4Event -= InventorySlot4;
     }
 
     void Update()
-    { 
+    {
         IsItemHeld();
     }
 
@@ -104,7 +63,7 @@ public class PickupObject : MonoBehaviour
         }
     }
 
-    private void PickupItem(InputAction.CallbackContext context)
+    private void PickupItem()
     {
         Debug.Log("Picking up item");
         foreach (GameObject item in pickupItems)
@@ -114,19 +73,29 @@ public class PickupObject : MonoBehaviour
                 if (item.activeSelf)
                 {
                     inventoryItems.Add(new InventoryItem { item = item, isHeld = false });
-                    item.SetActive(false); 
-                    break; 
+                    item.SetActive(false);
+                    if(item.name == "PickupLantern")
+                    {
+                        LightOff(item);
+                    }
+                    break;
                 }
             }
         }
     }
 
-    private void DropItem(InputAction.CallbackContext context)
+    // Set the light in the lantern to inactive
+    private void LightOff(GameObject item)
+    {
+        item.GetComponentInChildren<Light>().enabled = false;
+    }
+
+    private void DropItem()
     {
         Debug.Log("Dropping item");
         foreach (InventoryItem i in inventoryItems)
         {
-            if (i.isHeld && inventoryItems.Count > 1)
+            if (i.isHeld)
             {
                 i.item.transform.position = player.transform.position + player.transform.up;
                 i.item.SetActive(true);
@@ -137,84 +106,24 @@ public class PickupObject : MonoBehaviour
         }
     }
 
-    private void InventorySlot1(InputAction.CallbackContext context)
-    {
-        inventoryItems[1].item.SetActive(true);
+    #region Inventory slots
+    private void InventorySlot1() => SetHeldItem(0);
+    private void InventorySlot2() => SetHeldItem(1);
+    private void InventorySlot3() => SetHeldItem(2);
+    private void InventorySlot4() => SetHeldItem(3);
+    #endregion
 
+    private void SetHeldItem(int slot)
+    {
         foreach (InventoryItem item in inventoryItems)
         {
-            if (item.isHeld)
-            {
-                item.isHeld = false;
-            }
+            item.isHeld = false;
         }
 
-        inventoryItems[1].isHeld = true;
-    }
-
-    private void InventorySlot2(InputAction.CallbackContext context)
-    {
-        inventoryItems[2].item.SetActive(true);
-
-        foreach (InventoryItem item in inventoryItems)
+        if (slot < inventoryItems.Count)
         {
-            if (item.isHeld)
-            {
-                item.isHeld = false;
-            }
-        }
-
-        inventoryItems[2].isHeld = true;
-    }
-
-    private void InventorySlot3(InputAction.CallbackContext context)
-    {
-        inventoryItems[3].item.SetActive(true);
-
-        foreach (InventoryItem item in inventoryItems)
-        {
-            if (item.isHeld)
-            {
-                item.isHeld = false;
-            }
-        }
-
-        inventoryItems[3].isHeld = true;
-    }
-
-    private void InventorySlot4(InputAction.CallbackContext context)
-    {
-        inventoryItems[4].item.SetActive(true);
-
-        foreach (InventoryItem item in inventoryItems)
-        {
-            if (item.isHeld)
-            {
-                item.isHeld = false;
-            }
-        }
-
-        inventoryItems[4].isHeld = true;
-    }
-
-    private void ToggleLantern(InputAction.CallbackContext context)
-    {
-        if(inventoryItems.Count >= 1 && inventoryItems[0].item.name == "PickupLantern")
-        {
-            if (_lanternOn)
-            {
-                lantern.SetActive(false);
-                _lanternOn = false;
-            }
-            else
-            {
-                lantern.SetActive(true);
-                _lanternOn = true;
-            }
-        }
-        else
-        {
-            Debug.Log("You don't have the lantern in your inventory");
+            inventoryItems[slot].item.SetActive(true);
+            inventoryItems[slot].isHeld = true;
         }
     }
 }
