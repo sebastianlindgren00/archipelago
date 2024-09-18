@@ -12,13 +12,13 @@ public class PickupObject : MonoBehaviour
 
     public GameObject[] pickupItems;
     public List<InventoryItem> inventoryItems;
-    public GameObject player;
+    private GameObject _player = default;
 
     [SerializeField] private InputReader _inputReader = default;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player");
         pickupItems = GameObject.FindGameObjectsWithTag("PickupItem");
         inventoryItems = new List<InventoryItem>(4); // Initialize 4 inventory slots
     }
@@ -54,7 +54,7 @@ public class PickupObject : MonoBehaviour
         {
             if (i.isHeld)
             {
-                i.item.transform.position = player.transform.position + player.transform.up;
+                i.item.transform.position = _player.transform.position + _player.transform.up;
             }
             else
             {
@@ -68,7 +68,7 @@ public class PickupObject : MonoBehaviour
         Debug.Log("Picking up item");
         foreach (GameObject item in pickupItems)
         {
-            if (Vector3.Distance(player.transform.position, item.transform.position) < 2.0f)
+            if (Vector3.Distance(_player.transform.position, item.transform.position) < 2.0f)
             {
                 if (item.activeSelf)
                 {
@@ -97,7 +97,7 @@ public class PickupObject : MonoBehaviour
         {
             if (i.isHeld)
             {
-                i.item.transform.position = player.transform.position + player.transform.up;
+                i.item.transform.position = _player.transform.position + _player.transform.up;
                 i.item.SetActive(true);
                 i.isHeld = false;
                 inventoryItems.Remove(i);
@@ -107,10 +107,10 @@ public class PickupObject : MonoBehaviour
     }
 
     #region Inventory slots
-    private void InventorySlot1() => SetHeldItem(0);
-    private void InventorySlot2() => SetHeldItem(1);
-    private void InventorySlot3() => SetHeldItem(2);
-    private void InventorySlot4() => SetHeldItem(3);
+    private void InventorySlot1() => SetHeldItem(1);
+    private void InventorySlot2() => SetHeldItem(2);
+    private void InventorySlot3() => SetHeldItem(3);
+    private void InventorySlot4() => SetHeldItem(4);
     #endregion
 
     private void SetHeldItem(int slot)

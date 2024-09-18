@@ -5,10 +5,10 @@ public class HandleLight : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader = default;
 
-    private GameObject lantern;
-    private bool _lanternOn = false;
-    private GameObject _player;
-    private List<PickupObject.InventoryItem> inventoryItems;
+    private GameObject lantern = default;
+    private GameObject _player = default;
+
+    private List<PickupObject.InventoryItem> _inventoryItems;
 
     private void OnEnable()
     {
@@ -20,26 +20,28 @@ public class HandleLight : MonoBehaviour
         _inputReader.ToggleLanternEvent -= ToggleLantern;
     }
 
-    void Start()
-    {
-        lantern = GameObject.FindGameObjectWithTag("Lantern");
-        lantern.SetActive(false);
+    private void Start()
+    {   
+        lantern = transform.GetChild(0).gameObject; 
+        lantern.SetActive(false); // Start with lantern off
         _player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    void Update()
+    private void Update()
     {
-        inventoryItems = _player.GetComponent<PickupObject>().inventoryItems;
+        if (_player != null)
+        {
+            _inventoryItems = _player.GetComponent<PickupObject>().inventoryItems;
+        }
     }
 
     private void ToggleLantern()
     {
-        Debug.Log("Toggling lantern");
-        if (inventoryItems.Count >= 1 && inventoryItems[0].item.name == "PickupLantern")
+        Debug.Log("Toggling lantern & inventory count: " + _inventoryItems.Count);
+
+        if (_inventoryItems.Count > 0 && _inventoryItems[0].item.name == "PickupLantern")
         {
-            _lanternOn = !_lanternOn;
-            lantern.SetActive(_lanternOn);
-            lantern.GetComponent<Light>().enabled = _lanternOn;
+            lantern.SetActive(!lantern.activeSelf);
         }
         else
         {

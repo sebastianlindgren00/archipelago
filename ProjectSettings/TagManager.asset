@@ -8,6 +8,7 @@ TagManager:
   - PickupItem
   - CameraGroup
   - Lantern
+  - FogContainer
   layers:
   - Default
   - TransparentFX
