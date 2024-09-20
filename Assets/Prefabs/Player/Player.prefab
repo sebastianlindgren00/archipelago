@@ -1386,6 +1386,7 @@ GameObject:
   - component: {fileID: 7716922003664829576}
   - component: {fileID: 2048961260314837753}
   - component: {fileID: 2644789238391252974}
+  - component: {fileID: 5130900192842296049}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1467,8 +1468,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupItems: []
   inventoryItems: []
-  player: {fileID: 7716820706052764706}
   _inputReader: {fileID: 11400000, guid: b3ebb34d390024a48b45f7e4619cbabd, type: 2}
+--- !u!114 &5130900192842296049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7716820706052764706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a1441274869477bbe729709579eadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7882709991348223026
 GameObject:
   m_ObjectHideFlags: 0
