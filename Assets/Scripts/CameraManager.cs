@@ -37,7 +37,6 @@ public class CameraManager : MonoBehaviour
         Cursor.visible = false;
 
         _virtualCamera = GetComponentInChildren<CinemachineFreeLook>();
-        Debug.Log(_virtualCamera.m_Lens.FieldOfView);
 
         // Set the default FOV
         setFOV("default");
