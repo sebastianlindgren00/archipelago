@@ -186,6 +186,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleLantern",
+                    "type": "Button",
+                    "id": "39c67c53-dc5a-448a-a6d4-8db8c7b46cf7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -417,6 +426,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "InventorySlotIndexIncrease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "442f0745-3e5b-4ebd-95ac-ceb8c8dc324b",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleLantern",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

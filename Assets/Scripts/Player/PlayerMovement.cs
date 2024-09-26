@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     #region Player Movement States
     private bool _isCrouching = false;
     private bool _isRunning = false;
-    private bool _isTargeting = false;
+    //private bool _isTargeting = false;
     private bool _isPlayerInMotion = false;
     #endregion
 

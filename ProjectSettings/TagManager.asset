@@ -7,6 +7,9 @@ TagManager:
   - CinemachineTarget
   - PickupItem
   - CameraGroup
+  - Lantern
+  - FogContainer
+  - LanternContainer
   layers:
   - Default
   - TransparentFX
@@ -14,9 +17,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - PickupItem
+  - Lantern
   - 
   - 
   - 

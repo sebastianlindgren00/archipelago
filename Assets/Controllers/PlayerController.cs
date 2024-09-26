@@ -208,6 +208,15 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleLantern"",
+                    ""type"": ""Button"",
+                    ""id"": ""39c67c53-dc5a-448a-a6d4-8db8c7b46cf7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -441,6 +450,17 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""InventorySlotIndexIncrease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""442f0745-3e5b-4ebd-95ac-ceb8c8dc324b"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleLantern"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -463,6 +483,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_Player_InventorySlot3 = m_Player.FindAction("InventorySlot3", throwIfNotFound: true);
         m_Player_InventorySlot4 = m_Player.FindAction("InventorySlot4", throwIfNotFound: true);
         m_Player_InventorySlotIndexIncrease = m_Player.FindAction("InventorySlotIndexIncrease", throwIfNotFound: true);
+        m_Player_ToggleLantern = m_Player.FindAction("ToggleLantern", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -581,6 +602,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_InventorySlot3;
     private readonly InputAction m_Player_InventorySlot4;
     private readonly InputAction m_Player_InventorySlotIndexIncrease;
+    private readonly InputAction m_Player_ToggleLantern;
     public struct PlayerActions
     {
         private @PlayerController m_Wrapper;
@@ -596,6 +618,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         public InputAction @InventorySlot3 => m_Wrapper.m_Player_InventorySlot3;
         public InputAction @InventorySlot4 => m_Wrapper.m_Player_InventorySlot4;
         public InputAction @InventorySlotIndexIncrease => m_Wrapper.m_Player_InventorySlotIndexIncrease;
+        public InputAction @ToggleLantern => m_Wrapper.m_Player_ToggleLantern;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -638,6 +661,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @InventorySlotIndexIncrease.started += instance.OnInventorySlotIndexIncrease;
             @InventorySlotIndexIncrease.performed += instance.OnInventorySlotIndexIncrease;
             @InventorySlotIndexIncrease.canceled += instance.OnInventorySlotIndexIncrease;
+            @ToggleLantern.started += instance.OnToggleLantern;
+            @ToggleLantern.performed += instance.OnToggleLantern;
+            @ToggleLantern.canceled += instance.OnToggleLantern;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -675,6 +701,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @InventorySlotIndexIncrease.started -= instance.OnInventorySlotIndexIncrease;
             @InventorySlotIndexIncrease.performed -= instance.OnInventorySlotIndexIncrease;
             @InventorySlotIndexIncrease.canceled -= instance.OnInventorySlotIndexIncrease;
+            @ToggleLantern.started -= instance.OnToggleLantern;
+            @ToggleLantern.performed -= instance.OnToggleLantern;
+            @ToggleLantern.canceled -= instance.OnToggleLantern;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -709,5 +738,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         void OnInventorySlot3(InputAction.CallbackContext context);
         void OnInventorySlot4(InputAction.CallbackContext context);
         void OnInventorySlotIndexIncrease(InputAction.CallbackContext context);
+        void OnToggleLantern(InputAction.CallbackContext context);
     }
 }
