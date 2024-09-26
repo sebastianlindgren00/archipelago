@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 6461bcb0e9ef743c29679308b50dd413
+=======
+guid: 8905b97d7e0bf9140937553bae9e3f25
+>>>>>>> the-warden
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
