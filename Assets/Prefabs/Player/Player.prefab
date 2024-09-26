@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 7656940209642595086}
   m_Layer: 0
   m_Name: LanternContainer
-  m_TagString: Untagged
+  m_TagString: LanternContainer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1481,6 +1481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a1441274869477bbe729709579eadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lantern: {fileID: 0}
 --- !u!1 &7882709991348223026
 GameObject:
   m_ObjectHideFlags: 0

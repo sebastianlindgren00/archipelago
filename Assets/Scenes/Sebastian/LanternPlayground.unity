@@ -747,7 +747,7 @@ PrefabInstance:
       objectReference: {fileID: 679957826}
     - target: {fileID: 6956919833747636341, guid: 9acf734ab159a6f4e9ab606606a711df, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 47.78258
+      value: 53.21
       objectReference: {fileID: 0}
     - target: {fileID: 6956919833747636341, guid: 9acf734ab159a6f4e9ab606606a711df, type: 3}
       propertyPath: m_LocalPosition.y
@@ -792,10 +792,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7716820706052764706, guid: 9acf734ab159a6f4e9ab606606a711df, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1957959835}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9acf734ab159a6f4e9ab606606a711df, type: 3}
 --- !u!1 &1379305246
 GameObject:
@@ -1058,7 +1055,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 328675313886274578, guid: 8127bc1e1a087334a9a283240eb82080, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.448914
+      value: -5.021496
       objectReference: {fileID: 0}
     - target: {fileID: 328675313886274578, guid: 8127bc1e1a087334a9a283240eb82080, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1174,7 +1171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3227313512083188780, guid: 8127bc1e1a087334a9a283240eb82080, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.448914
+      value: -5.021496
       objectReference: {fileID: 0}
     - target: {fileID: 3227313512083188780, guid: 8127bc1e1a087334a9a283240eb82080, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1342,23 +1339,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82d0c09779fb3415887592b064b80e50, type: 3}
---- !u!1 &1957959831 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7716820706052764706, guid: 9acf734ab159a6f4e9ab606606a711df, type: 3}
-  m_PrefabInstance: {fileID: 1199350176}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1957959835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957959831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30a1441274869477bbe729709579eadb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2034221602
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,6 +1439,42 @@ PrefabInstance:
     - target: {fileID: 2365708053085382808, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
       propertyPath: m_Name
       value: FogContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.size.x
+      value: 5.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.size.y
+      value: 2.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.size.z
+      value: 4.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.m_EditorNegativeFade.x
+      value: 0.01945525
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.m_EditorNegativeFade.y
+      value: 0.048543714
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.m_EditorNegativeFade.z
+      value: 0.024570033
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.m_EditorPositiveFade.x
+      value: 0.01945525
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.m_EditorPositiveFade.y
+      value: 0.048543714
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257519886989993070, guid: c9bc5b77055f44b7d9009204063651df, type: 3}
+      propertyPath: parameters.m_EditorPositiveFade.z
+      value: 0.024570033
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

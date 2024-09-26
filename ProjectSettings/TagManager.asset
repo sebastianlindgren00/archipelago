@@ -9,6 +9,7 @@ TagManager:
   - CameraGroup
   - Lantern
   - FogContainer
+  - LanternContainer
   layers:
   - Default
   - TransparentFX
