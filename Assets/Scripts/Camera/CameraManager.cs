@@ -10,7 +10,7 @@ public class CameraManager : MonoBehaviour
     public Dictionary<string, float> fovs = new Dictionary<string, float>
     {
         {"default", 50f},
-        {"run", 30f}
+        {"run", 45f}
     };
     [Header("Sensitivity")]
     [Range(0.1f, 10f)]
