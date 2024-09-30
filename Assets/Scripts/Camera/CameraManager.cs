@@ -12,6 +12,12 @@ public class CameraManager : MonoBehaviour
         {"default", 50f},
         {"run", 30f}
     };
+    [Header("Sensitivity")]
+    [Range(0.1f, 10f)]
+    public float mouseSensitivityX = 1f;
+    [Range(0.1f, 5f)]
+    public float mouseSensitivityY = 1f;
+    private Vector2 defaultSensitivity;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +30,17 @@ public class CameraManager : MonoBehaviour
 
         // Set the default FOV
         setFOV("default");
+
+
+        // Set the default sensitivity
+        defaultSensitivity = new Vector2(_virtualCamera.m_XAxis.m_MaxSpeed, _virtualCamera.m_YAxis.m_MaxSpeed);
+    }
+
+    void Update()
+    {
+        // Set the sensitivity 
+        _virtualCamera.m_XAxis.m_MaxSpeed = defaultSensitivity.x * mouseSensitivityX;
+        _virtualCamera.m_YAxis.m_MaxSpeed = defaultSensitivity.y * mouseSensitivityY;
     }
 
     public void setNoise(float amplitude, float frequency)
