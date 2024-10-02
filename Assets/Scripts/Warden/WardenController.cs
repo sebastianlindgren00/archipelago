@@ -6,20 +6,32 @@ using UnityEngine.AI;
 public class WardenController : MonoBehaviour
 {
     private NavMeshAgent agent;
-    // [SerializeField] private float movementSpeed = 5f;
-    // [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 5f;
     [SerializeField] private GameObject player;
+    private Animator _animator;
 
-    void Start()
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        // Debug.Log(agent);
+        agent.speed = movementSpeed;
+
+        GameObject avatar = transform.Find("Avatar").gameObject;
+        _animator = avatar.GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         agent.SetDestination(player.transform.position);
-        Debug.Log(player.transform.position);
+        ApplyAnimation();
+        // Debug.Log(player.transform.position);
+    }
+
+    private void ApplyAnimation()
+    {
+        // Set the speed of the player
+        _animator.SetFloat("Speed", agent.velocity.magnitude);
     }
 }
