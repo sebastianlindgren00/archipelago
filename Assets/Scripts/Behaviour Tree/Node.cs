@@ -4,6 +4,7 @@ using System.Collections;
 [System.Serializable]
 public abstract class Node
 {
+    public readOnly string name;
 
     // Delegate that returns the state of the node.
     public delegate NodeStates NodeReturn();

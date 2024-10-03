@@ -21,14 +21,6 @@ public class WardenController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        agent.SetDestination(player.transform.position);
-        ApplyAnimation();
-        // Debug.Log(player.transform.position);
-    }
-
     private void ApplyAnimation()
     {
         // Set the speed of the player
