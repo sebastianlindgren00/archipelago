@@ -1,34 +1,46 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-[System.Serializable]
-public abstract class Node
+namespace BehaviourTree
 {
-    public readOnly string name;
-
-    // Delegate that returns the state of the node.
-    public delegate NodeStates NodeReturn();
-
-    // The current state of the node
-    protected NodeStates m_nodeState;
-
-    public NodeStates nodeState
+    [System.Serializable]
+    public abstract class Node
     {
-        get { return m_nodeState; }
+        public readonly string Name;
+        protected List<Node> m_children = new List<Node>();
+        protected int m_currentChild = 0;
+
+        // The current state of the node
+        protected NodeStatus m_nodeStatus;
+
+        public NodeStatus nodeState
+        {
+            get { return m_nodeStatus; }
+        }
+
+        // The constructor for the node
+        public Node(string name = "Node")
+        {
+            this.Name = name;
+        }
+
+        public void AddChild(Node child) => m_children.Add(child);
+
+        // Implementing classes use this method to evaluate the desired set of conditions
+        public virtual NodeStatus Evaluate() => m_children[m_currentChild].Evaluate();
+
+        public virtual void Reset()
+        {
+            m_currentChild = 0;
+            m_nodeStatus = NodeStatus.RUNNING;
+        }
+
     }
 
-    // The constructor for the node
-    public Node() { }
-
-    // Implementing classes use this method to evaluate the desired set of conditions
-    public abstract NodeStates Evaluate();
-
-}
-
-// Enum that represents the state of the node
-public enum NodeStates
-{
-    SUCCESS,
-    FAILURE,
-    RUNNING
+    // Enumeration for the possible node states
+    public enum NodeStatus
+    {
+        SUCCESS, FAILURE, RUNNING, ERROR
+    }
 }

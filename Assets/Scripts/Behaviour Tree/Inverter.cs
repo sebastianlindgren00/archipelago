@@ -21,21 +21,21 @@ public class Inverter : Node
   /* Reports a success if the child fails and 
    * a failure if the child succeeds. Running will report 
    * as running */
-  public override NodeStates Evaluate()
+  public override NodeStatus Evaluate()
   {
     switch (m_node.Evaluate())
     {
-      case NodeStates.FAILURE:
-        m_nodeState = NodeStates.SUCCESS;
-        return m_nodeState;
-      case NodeStates.SUCCESS:
-        m_nodeState = NodeStates.FAILURE;
-        return m_nodeState;
-      case NodeStates.RUNNING:
-        m_nodeState = NodeStates.RUNNING;
-        return m_nodeState;
+      case NodeStatus.FAILURE:
+        m_nodeStatus = NodeStatus.SUCCESS;
+        return m_nodeStatus;
+      case NodeStatus.SUCCESS:
+        m_nodeStatus = NodeStatus.FAILURE;
+        return m_nodeStatus;
+      case NodeStatus.RUNNING:
+        m_nodeStatus = NodeStatus.RUNNING;
+        return m_nodeStatus;
     }
-    m_nodeState = NodeStates.SUCCESS;
-    return m_nodeState;
+    m_nodeStatus = NodeStatus.SUCCESS;
+    return m_nodeStatus;
   }
 }
