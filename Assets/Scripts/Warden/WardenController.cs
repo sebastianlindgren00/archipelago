@@ -11,6 +11,9 @@ public class WardenController : MonoBehaviour
     [SerializeField] private GameObject player;
     private Animator _animator;
 
+    private BehaviourTree.Tree tree;
+    public Transform[] patrolWaypoints;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -19,6 +22,14 @@ public class WardenController : MonoBehaviour
         GameObject avatar = transform.Find("Avatar").gameObject;
         _animator = avatar.GetComponent<Animator>();
 
+        tree = new BehaviourTree.Tree("Warden");
+        tree.AddChild(new BehaviourTree.Leaf("Patrol", new BehaviourTree.PatrolAction(agent, patrolWaypoints)));
+    }
+
+    void Update()
+    {
+        ApplyAnimation();
+        tree.Evaluate();
     }
 
     private void ApplyAnimation()
