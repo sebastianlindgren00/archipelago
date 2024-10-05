@@ -1,40 +1,94 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace BehaviourTree
 {
   public class Selector : Node
   {
-    // The child nodes for this selector
-    protected List<Node> m_nodes = new List<Node>();
+    // The constructor requires a list of child nodes to be passed in
+    public Selector(string name, int priority = 0) : base(name, priority) { }
+
+    // If any of the children reports a success, the selector will immediately report a success upwards.
+    // If all children fail, it will report a failure instead.
+    public override NodeStatus Evaluate()
+    {
+      foreach (Node node in m_children)
+      {
+        switch (node.Evaluate())
+        {
+          case NodeStatus.SUCCESS:
+            return NodeStatus.SUCCESS;
+          case NodeStatus.RUNNING:
+            return NodeStatus.RUNNING;
+          default:
+            continue;
+        }
+      }
+      return NodeStatus.FAILURE;
+    }
+  }
+
+  public class PrioritySelector : Selector
+  {
+    List<Node> sortedChildren;
+    List<Node> priorityChildren => sortedChildren ??= (sortedChildren = m_children.OrderByDescending(c => c.Priority).ToList());
+
 
     // The constructor requires a list of child nodes to be passed in
-    public Selector(List<Node> nodes)
+    public PrioritySelector(string name) : base(name) { }
+
+    public override void Reset()
     {
-      m_nodes = nodes;
+      base.Reset();
+      sortedChildren = null;
+
     }
 
     // If any of the children reports a success, the selector will immediately report a success upwards.
     // If all children fail, it will report a failure instead.
     public override NodeStatus Evaluate()
     {
-      foreach (Node node in m_nodes)
+      foreach (Node node in priorityChildren)
       {
+        Debug.Log(node.Name);
         switch (node.Evaluate())
         {
-          case NodeStatus.FAILURE:
-            continue;
           case NodeStatus.SUCCESS:
-            m_nodeStatus = NodeStatus.SUCCESS;
-            return m_nodeStatus;
+            return NodeStatus.SUCCESS;
           case NodeStatus.RUNNING:
-            m_nodeStatus = NodeStatus.RUNNING;
-            return m_nodeStatus;
+            return NodeStatus.RUNNING;
           default:
             continue;
         }
       }
-      m_nodeStatus = NodeStatus.FAILURE;
-      return m_nodeStatus;
+      return NodeStatus.FAILURE;
+    }
+  }
+
+  public class RandomSelector : Selector
+  {
+    // The constructor requires a list of child nodes to be passed in
+    public RandomSelector(string name, int priority = 0) : base(name, priority) { }
+
+    // If any of the children reports a success, the selector will immediately report a success upwards.
+    // If all children fail, it will report a failure instead.
+    public override NodeStatus Evaluate()
+    {
+      List<Node> shuffledChildren = m_children.OrderBy(x => Random.value).ToList();
+      foreach (Node node in shuffledChildren)
+      {
+        switch (node.Evaluate())
+        {
+          case NodeStatus.SUCCESS:
+            return NodeStatus.SUCCESS;
+          case NodeStatus.RUNNING:
+            return NodeStatus.RUNNING;
+          default:
+            continue;
+        }
+      }
+      return NodeStatus.FAILURE;
     }
   }
 }

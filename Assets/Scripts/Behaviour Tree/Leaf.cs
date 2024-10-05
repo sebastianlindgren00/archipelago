@@ -1,18 +1,13 @@
 namespace BehaviourTree
 {
-  public interface IAction
-  {
-    NodeStatus Execute();
-    void Reset();
-  }
-
   public class Leaf : Node
   {
-    private IAction action;
+    private IStrategy action;
 
-    public Leaf(string name, IAction action) : base(name)
+    public Leaf(string name, IStrategy strategy, int priority = 0) : base(name, priority)
     {
-      this.action = action;
+      this.action = strategy;
+
     }
 
     public override NodeStatus Evaluate()

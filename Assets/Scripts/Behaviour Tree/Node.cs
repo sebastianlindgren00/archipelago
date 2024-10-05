@@ -6,6 +6,7 @@ namespace BehaviourTree
     public abstract class Node
     {
         public readonly string Name;
+        public readonly int Priority;
         protected List<Node> m_children = new List<Node>();
         protected int m_currentChild = 0;
 
@@ -18,9 +19,10 @@ namespace BehaviourTree
         }
 
         // The constructor for the node
-        public Node(string name = "Node")
+        public Node(string name = "Node", int priority = 0)
         {
             this.Name = name;
+            this.Priority = priority;
         }
 
         public void AddChild(Node child) => m_children.Add(child);
