@@ -30,15 +30,11 @@ public class WardenController : MonoBehaviour
         _tree = new BehaviourTree.Tree(gameObject.name);
 
         PrioritySelector actions = new PrioritySelector("Warden Logic");
+
         Sequence chasePlayer = new Sequence("Chase Player", 100);
         chasePlayer.AddChild(new Leaf("playerInSight?", new Condition(playerInSight)));
-        PrioritySelector chasePlayerPriority = new PrioritySelector("Chase Player Priority");
-        chasePlayerPriority.AddChild(new Leaf("Chase Player", new ChaseStrategy(agent, player.transform)));
-        Inverter inSightInverter = new Inverter("Invert Player In Sight", 50);
-        inSightInverter.AddChild(new Leaf("playerInSight?", new Condition(playerInSight)));
-        inSightInverter.AddChild(new Leaf("Reset Chase", new ActionStrategy(() => agent.ResetPath())));
-        chasePlayerPriority.AddChild(inSightInverter);
-        chasePlayer.AddChild(chasePlayerPriority);
+        chasePlayer.AddChild(new Leaf("Chase Player", new ChaseStrategy(agent, player.transform)));
+        chasePlayer.AddChild(chasePlayer);
         actions.AddChild(chasePlayer);
 
         Leaf patrol = new Leaf("Patrol", new PatrolStrategy(agent, patrolWaypoints));
