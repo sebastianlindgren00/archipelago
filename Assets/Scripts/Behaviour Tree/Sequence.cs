@@ -32,5 +32,14 @@ namespace BehaviourTree
                     return m_currentChild == m_children.Count ? NodeStatus.SUCCESS : NodeStatus.RUNNING;
             }
         }
+
+        public override void Reset()
+        {
+            m_currentChild = 0;
+            foreach (Node child in m_children)
+            {
+                child.Reset();
+            }
+        }
     }
 }

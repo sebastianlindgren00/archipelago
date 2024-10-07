@@ -113,4 +113,35 @@ namespace BehaviourTree
       agent.ResetPath();
     }
   }
+
+  public class GrabStrategy : IStrategy
+  {
+    readonly NavMeshAgent agent;
+    readonly Transform target;
+
+    public GrabStrategy(NavMeshAgent agent, Transform target)
+    {
+      this.agent = agent;
+      this.target = target;
+    }
+
+    public NodeStatus Execute()
+    {
+      agent.SetDestination(target.position);
+
+      if (agent.remainingDistance < 0.5f)
+      {
+        // Grab the player
+        Debug.Log("Grabbing player");
+        return NodeStatus.SUCCESS;
+      }
+
+      return NodeStatus.FAILURE;
+    }
+
+    public void Reset()
+    {
+      agent.ResetPath();
+    }
+  }
 }

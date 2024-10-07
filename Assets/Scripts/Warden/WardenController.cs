@@ -26,17 +26,41 @@ public class WardenController : MonoBehaviour
 
         _soundManager = GameObject.Find("GameManager").GetComponent<SoundManager>();
 
+        createBehaviourTree();
+    }
+
+    void createBehaviourTree()
+    {
         // Create the behaviour tree
         _tree = new BehaviourTree.Tree(gameObject.name);
 
         PrioritySelector actions = new PrioritySelector("Warden Logic");
 
-        Sequence chasePlayer = new Sequence("Chase Player", 100);
-        chasePlayer.AddChild(new Leaf("playerInSight?", new Condition(playerInSight)));
-        chasePlayer.AddChild(new Leaf("Chase Player", new ChaseStrategy(agent, player.transform)));
-        chasePlayer.AddChild(chasePlayer);
-        actions.AddChild(chasePlayer);
+        Sequence trackPlayer = new Sequence("Track Player", 100);
+        trackPlayer.AddChild(new Leaf("Player Detected?", new Condition(playerDetected)));
 
+        PrioritySelector chasePlayer = new PrioritySelector("Chase Player");
+
+        // CHASE - Check for player visibility
+        Sequence playerVisibility = new Sequence("Player Visibility", 100);
+        Inverter playerDetectedInverter = new Inverter("Player Detected Inverter");
+        playerDetectedInverter.AddChild(new Leaf("Player Detected?", new Condition(playerDetected)));
+        playerVisibility.AddChild(playerDetectedInverter);
+        chasePlayer.AddChild(playerVisibility);
+
+        // CHASE - Check if player is in range
+        chasePlayer.AddChild(new Leaf("Grab Player", new GrabStrategy(agent, player.transform), 50));
+        // Sequence playerInRange = new Sequence("Player In Range");
+        // playerInRange.AddChild(new Leaf("Player Close?", new Condition(playerIsClose)));
+
+        // CHASE - Move towards player (default)
+        chasePlayer.AddChild(new Leaf("Move Towards Player", new ChaseStrategy(agent, player.transform)));
+
+
+        trackPlayer.AddChild(chasePlayer);
+        actions.AddChild(trackPlayer);
+
+        // ROOT - Patrol (default)
         Leaf patrol = new Leaf("Patrol", new PatrolStrategy(agent, patrolWaypoints));
         actions.AddChild(patrol);
 
@@ -55,18 +79,30 @@ public class WardenController : MonoBehaviour
         _animator.SetFloat("Speed", agent.velocity.magnitude);
     }
 
-    private bool playerInSight()
+    private bool playerDetected()
     {
         Vector3 direction = player.transform.position - transform.position;
         float angle = Vector3.Angle(direction, transform.forward);
         float distance = direction.magnitude;
 
 
-        if (angle < 60 && distance < 10f)
+        if (angle < 60 && distance < 5f)
         {
-            _soundManager.StartChaseSound();
+            // _soundManager.StartChaseSound();
             return true;
         }
         return false;
     }
+
+    // private bool playerIsClose()
+    // {
+    //     Vector3 direction = player.transform.position - transform.position;
+    //     float distance = direction.magnitude;
+
+    //     if (distance < 1f)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 }
