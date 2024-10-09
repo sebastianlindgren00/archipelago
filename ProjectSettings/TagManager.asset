@@ -10,6 +10,7 @@ TagManager:
   - Lantern
   - FogContainer
   - LanternContainer
+  - Readable
   layers:
   - Default
   - TransparentFX
