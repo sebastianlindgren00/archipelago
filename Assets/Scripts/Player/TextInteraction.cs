@@ -1,21 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public class TextInteraction : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ReadText()
     {
+        GameObject closestObject = GetComponent<PlayerInteraction>().GetClosestObject();
+        if (!closestObject.name.Contains("text"))
+            return;
 
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Readable")
-        {
-            Debug.Log("Read text?");
-        }
+        // Get text from the object
+        string text = closestObject.GetComponentInChildren<TextMeshPro>().text;
+        Debug.Log(text);
     }
 }
