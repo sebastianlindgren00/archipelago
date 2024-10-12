@@ -80,13 +80,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9039394434735639862}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.27382982, z: -0, w: 0.9617782}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 14.462192, y: 3.9373257, z: 7.5356474}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 855338136228157528}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -31.785, z: 0}
 --- !u!114 &5257519886989993070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameters:
     albedo: {r: 1, g: 1, b: 1, a: 1}
-    meanFreePath: 0.41
+    meanFreePath: 0.15
     blendingMode: 1
     priority: 0
     anisotropy: 0
@@ -111,10 +111,10 @@ MonoBehaviour:
     positiveFade: {x: 0, y: 0, z: 0}
     negativeFade: {x: 0, y: 0, z: 0}
     m_EditorUniformFade: 0
-    m_EditorPositiveFade: {x: 0.07772756, y: 0.07638683, z: 0.09361753}
-    m_EditorNegativeFade: {x: 0.07772756, y: 0.07638683, z: 0.09361753}
+    m_EditorPositiveFade: {x: 0.12048192, y: 0.07638683, z: 0.011534031}
+    m_EditorNegativeFade: {x: 0.12048192, y: 0.07638683, z: 0.011534031}
     m_EditorAdvancedFade: 0
-    size: {x: 1.2865448, y: 1.3091269, z: 1.0681763}
+    size: {x: 0.83, y: 1.3091269, z: 8.67}
     invertFade: 0
     distanceFadeStart: 10000
     distanceFadeEnd: 10000
