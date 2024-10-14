@@ -51,7 +51,6 @@ namespace BehaviourTree
     {
       foreach (Node node in priorityChildren)
       {
-        Debug.Log(node.Name);
         switch (node.Evaluate())
         {
           case NodeStatus.SUCCESS:

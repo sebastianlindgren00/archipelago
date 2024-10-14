@@ -31,14 +31,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _movementSpeedSmoothing = 3f;
     [SerializeField] private float _turnSpeedSmoothing = 30f;
     private const float _gravityConstant = -9.81f;
-    private const float _rotationSpeed = 180.0f;
     #endregion
 
     #region Player Movement States
     private bool _isCrouching = false;
     private bool _isRunning = false;
-    //private bool _isTargeting = false;
-    private bool _isPlayerInMotion = false;
+    private bool _isLocked = false;
     #endregion
 
     #region Player Movement Variables
@@ -90,10 +88,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (_isLocked) return;
         getInputConditions();
         ApplyAnimation();
         ApplyMotion();
     }
+
+    public void LockMovement(bool lockPlayer) => _isLocked = lockPlayer;
 
     private void getInputConditions()
     {

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.AI;
 using BehaviourTree;
@@ -47,10 +44,11 @@ public class WardenController : MonoBehaviour
         playerVisibility.AddChild(new Leaf("LookAroundStrategy", new LookAroundStrategy(agent, transform)));
         chasePlayer.AddChild(playerVisibility);
 
-        // CHASE - Check if player is in range
-        chasePlayer.AddChild(new Leaf("Grab Player", new GrabStrategy(agent, player.transform), 50));
-        // Sequence playerInRange = new Sequence("Player In Range");
-        // playerInRange.AddChild(new Leaf("Player Close?", new Condition(playerIsClose)));
+        // CHASE -> GRAB 
+        Sequence playerInRange = new Sequence("Player In Range");
+        playerInRange.AddChild(new Leaf("Player Close?", new Condition(playerIsClose)));
+        playerInRange.AddChild(new Leaf("Grab Player", new GrabStrategy(player, agent, _animator)));
+        chasePlayer.AddChild(playerInRange);
 
         // CHASE - Move towards player (default)
         chasePlayer.AddChild(new Leaf("Move Towards Player", new ChaseStrategy(agent, player.transform)));
@@ -71,11 +69,7 @@ public class WardenController : MonoBehaviour
         NodeStatus status = _tree.Evaluate();
         if (status == NodeStatus.SUCCESS)
         {
-            Debug.Log("TREE Success");
-        }
-        else
-        {
-            Debug.Log("TREE Failure");
+            _tree.Reset();
         }
     }
 
@@ -106,22 +100,24 @@ public class WardenController : MonoBehaviour
         float angle = Vector3.Angle(direction, transform.forward);
         float distance = direction.magnitude;
 
-        if (angle > 60 || distance > 5f)
+        // If the player is out of sight in front of the warden and not within immediate reach
+        if (distance > 2f && !(angle < 60 && distance < 5f))
         {
+            Debug.Log("angle, distance " + angle + " " + distance);
             return true;
         }
         return false;
     }
 
-    // private bool playerIsClose()
-    // {
-    //     Vector3 direction = player.transform.position - transform.position;
-    //     float distance = direction.magnitude;
+    private bool playerIsClose()
+    {
+        Vector3 direction = player.transform.position - transform.position;
+        float distance = direction.magnitude;
 
-    //     if (distance < 1f)
-    //     {
-    //         return true;
-    //     }
-    //     return false;
-    // }
+        if (distance < 1f)
+        {
+            return true;
+        }
+        return false;
+    }
 }
