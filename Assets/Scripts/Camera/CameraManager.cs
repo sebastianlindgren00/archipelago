@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    private Transform _player;
     public CinemachineFreeLook _virtualCamera;
     public Dictionary<string, float> fovs = new Dictionary<string, float>
     {
@@ -31,9 +32,11 @@ public class CameraManager : MonoBehaviour
         // Set the default FOV
         setFOV("default");
 
-
         // Set the default sensitivity
         defaultSensitivity = new Vector2(_virtualCamera.m_XAxis.m_MaxSpeed, _virtualCamera.m_YAxis.m_MaxSpeed);
+
+        // Get the player transform
+        _player = GameObject.FindWithTag("Player").transform;
     }
 
     void Update()
@@ -61,6 +64,14 @@ public class CameraManager : MonoBehaviour
         }
 
         StartCoroutine(transitionFOV(fovs[key], duration));
+    }
+
+    public void setTargetOverride(Transform target)
+    {
+        if (target == null)
+            _virtualCamera.LookAt = _player;
+        else
+            _virtualCamera.LookAt = target;
     }
 
     IEnumerator transitionFOV(float endFOV, float duration)

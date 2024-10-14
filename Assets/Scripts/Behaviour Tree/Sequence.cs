@@ -30,7 +30,13 @@ namespace BehaviourTree
                     return m_nodeStatus;
                 default:
                     m_currentChild++;
-                    return m_currentChild == m_children.Count ? NodeStatus.SUCCESS : NodeStatus.RUNNING;
+                    if (m_currentChild == m_children.Count && m_nodeStatus != NodeStatus.RUNNING)
+                    {
+                        // Loop back to the first child if we reach the end
+                        m_currentChild = 0;
+                        m_nodeStatus = NodeStatus.SUCCESS;
+                    }
+                    return m_nodeStatus;
             }
         }
 

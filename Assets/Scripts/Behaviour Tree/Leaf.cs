@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace BehaviourTree
 {
   public class Leaf : Node
@@ -15,16 +17,14 @@ namespace BehaviourTree
       switch (action.Execute())
       {
         case NodeStatus.SUCCESS:
+          Debug.Log("Leaf: " + Name + " SUCCESS");
           m_nodeStatus = NodeStatus.SUCCESS;
           return m_nodeStatus;
         case NodeStatus.FAILURE:
           m_nodeStatus = NodeStatus.FAILURE;
           return m_nodeStatus;
-        case NodeStatus.RUNNING:
-          m_nodeStatus = NodeStatus.RUNNING;
-          return m_nodeStatus;
         default:
-          m_nodeStatus = NodeStatus.FAILURE;
+          m_nodeStatus = NodeStatus.RUNNING;
           return m_nodeStatus;
       }
     }

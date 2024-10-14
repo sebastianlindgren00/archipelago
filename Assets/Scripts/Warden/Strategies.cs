@@ -116,32 +116,52 @@ namespace BehaviourTree
 
   public class GrabStrategy : IStrategy
   {
+    // readonly GameObject player;
+    readonly CameraManager cameraManager;
+    readonly PlayerMovement playerMovement;
+    readonly Animator animator;
     readonly NavMeshAgent agent;
-    readonly Transform target;
+    private float timeElapsed = 0f;
+    private float timeToRelease = 2f;
 
-    public GrabStrategy(NavMeshAgent agent, Transform target)
+    public GrabStrategy(GameObject player, NavMeshAgent agent, Animator animator)
     {
+      // this.player = player;
+      playerMovement = player.GetComponent<PlayerMovement>();
+      this.animator = animator;
       this.agent = agent;
-      this.target = target;
+
+      // Get the camera manager
+      cameraManager = GameObject.FindWithTag("CameraGroup").GetComponent<CameraManager>();
     }
 
     public NodeStatus Execute()
     {
-      agent.SetDestination(target.position);
+      // Grab the player
+      animator.SetBool("isGrabbing", true);
+      playerMovement.LockMovement(true);
+      cameraManager.setTargetOverride(animator.transform);
+      agent.isStopped = true; // Stop the warden from moving
 
-      if (agent.remainingDistance < 0.5f)
+      // wait for 2 seconds
+      timeElapsed += Time.deltaTime;
+      Debug.Log("Time elapsed: " + timeElapsed);
+      if (timeElapsed >= timeToRelease)
       {
-        // Grab the player
-        Debug.Log("Grabbing player");
+        Debug.Log("Releasing player");
+        animator.SetBool("isGrabbing", false);
+        playerMovement.LockMovement(false);
+        cameraManager.setTargetOverride(null);
+        agent.isStopped = false; // Resume the warden's movement
         return NodeStatus.SUCCESS;
       }
 
-      return NodeStatus.FAILURE;
+      return NodeStatus.RUNNING;
     }
 
     public void Reset()
     {
-      agent.ResetPath();
+      // Do nothing
     }
   }
 
