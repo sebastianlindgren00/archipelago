@@ -43,9 +43,8 @@ public class WardenController : MonoBehaviour
 
         // CHASE - Check for player visibility
         Sequence playerVisibility = new Sequence("Player Visibility", 100);
-        Inverter playerDetectedInverter = new Inverter("Player Detected Inverter");
-        playerDetectedInverter.AddChild(new Leaf("Player Detected?", new Condition(playerDetected)));
-        playerVisibility.AddChild(playerDetectedInverter);
+        playerVisibility.AddChild(new Leaf("Player Lost?", new Condition(playerLost)));
+        playerVisibility.AddChild(new Leaf("LookAroundStrategy", new LookAroundStrategy(agent, transform)));
         chasePlayer.AddChild(playerVisibility);
 
         // CHASE - Check if player is in range
@@ -55,7 +54,6 @@ public class WardenController : MonoBehaviour
 
         // CHASE - Move towards player (default)
         chasePlayer.AddChild(new Leaf("Move Towards Player", new ChaseStrategy(agent, player.transform)));
-
 
         trackPlayer.AddChild(chasePlayer);
         actions.AddChild(trackPlayer);
@@ -70,7 +68,15 @@ public class WardenController : MonoBehaviour
     void Update()
     {
         ApplyAnimation();
-        _tree.Evaluate();
+        NodeStatus status = _tree.Evaluate();
+        if (status == NodeStatus.SUCCESS)
+        {
+            Debug.Log("TREE Success");
+        }
+        else
+        {
+            Debug.Log("TREE Failure");
+        }
     }
 
     private void ApplyAnimation()
@@ -89,6 +95,19 @@ public class WardenController : MonoBehaviour
         if (angle < 60 && distance < 5f)
         {
             // _soundManager.StartChaseSound();
+            return true;
+        }
+        return false;
+    }
+
+    private bool playerLost()
+    {
+        Vector3 direction = player.transform.position - transform.position;
+        float angle = Vector3.Angle(direction, transform.forward);
+        float distance = direction.magnitude;
+
+        if (angle > 60 || distance > 5f)
+        {
             return true;
         }
         return false;

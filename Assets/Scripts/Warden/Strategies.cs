@@ -144,4 +144,47 @@ namespace BehaviourTree
       agent.ResetPath();
     }
   }
+
+  public class LookAroundStrategy : IStrategy
+  {
+    readonly NavMeshAgent agent;
+    readonly Transform warden;
+    readonly Transform[] waypoints;
+    readonly float rotationSpeed = 90f;
+    readonly float timeToLook = 2f;
+    float timeElapsed = 0f;
+
+    public LookAroundStrategy(NavMeshAgent agent, Transform warden)
+    {
+      this.agent = agent;
+      this.warden = warden;
+
+      // Pick 3 random points around the warden to look at
+      waypoints = new Transform[3];
+      for (int i = 0; i < waypoints.Length; i++)
+      {
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * 5f;
+        randomDirection.y = 0;
+        randomDirection += warden.position;
+        waypoints[i] = new GameObject().transform;
+        waypoints[i].position = randomDirection;
+      }
+    }
+
+    public NodeStatus Execute()
+    {
+      if (waypoints.Length == 0)
+      {
+        return NodeStatus.ERROR;
+      }
+
+      // Wait for 2 seconds
+      timeElapsed += Time.deltaTime;
+      warden.rotation = Quaternion.Euler(0, rotationSpeed * Time.deltaTime, 0);
+
+      return (timeElapsed >= timeToLook) ? NodeStatus.SUCCESS : NodeStatus.RUNNING;
+    }
+
+
+  }
 }

@@ -22,6 +22,7 @@ namespace BehaviourTree
             switch (m_children[m_currentChild].Evaluate())
             {
                 case NodeStatus.FAILURE:
+                    m_currentChild = 0;
                     m_nodeStatus = NodeStatus.FAILURE;
                     return m_nodeStatus;
                 case NodeStatus.RUNNING:
