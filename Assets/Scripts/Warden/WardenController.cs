@@ -7,7 +7,8 @@ public class WardenController : MonoBehaviour
     private NavMeshAgent agent;
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
-    [SerializeField] private GameObject player;
+    private GameObject _player;
+    private PlayerInteraction _playerInteraction;
     private Animator _animator;
     public Transform[] patrolWaypoints;
     private BehaviourTree.Tree _tree;
@@ -20,6 +21,9 @@ public class WardenController : MonoBehaviour
 
         GameObject avatar = transform.Find("Avatar").gameObject;
         _animator = avatar.GetComponent<Animator>();
+
+        _player = GameObject.Find("Player");
+        _playerInteraction = _player.GetComponent<PlayerInteraction>();
 
         _soundManager = GameObject.Find("GameManager").GetComponent<SoundManager>();
 
@@ -47,11 +51,11 @@ public class WardenController : MonoBehaviour
         // CHASE -> GRAB 
         Sequence playerInRange = new Sequence("Player In Range");
         playerInRange.AddChild(new Leaf("Player Close?", new Condition(playerIsClose)));
-        playerInRange.AddChild(new Leaf("Grab Player", new GrabStrategy(player, agent, _animator)));
+        playerInRange.AddChild(new Leaf("Grab Player", new GrabStrategy(_player, agent, _animator)));
         chasePlayer.AddChild(playerInRange);
 
         // CHASE - Move towards player (default)
-        chasePlayer.AddChild(new Leaf("Move Towards Player", new ChaseStrategy(agent, player.transform)));
+        chasePlayer.AddChild(new Leaf("Move Towards Player", new ChaseStrategy(agent, _player.transform)));
 
         trackPlayer.AddChild(chasePlayer);
         actions.AddChild(trackPlayer);
@@ -81,7 +85,7 @@ public class WardenController : MonoBehaviour
 
     private bool playerDetected()
     {
-        Vector3 direction = player.transform.position - transform.position;
+        Vector3 direction = _player.transform.position - transform.position;
         float angle = Vector3.Angle(direction, transform.forward);
         float distance = direction.magnitude;
 
@@ -96,7 +100,7 @@ public class WardenController : MonoBehaviour
 
     private bool playerLost()
     {
-        Vector3 direction = player.transform.position - transform.position;
+        Vector3 direction = _player.transform.position - transform.position;
         float angle = Vector3.Angle(direction, transform.forward);
         float distance = direction.magnitude;
 
@@ -111,7 +115,19 @@ public class WardenController : MonoBehaviour
 
     private bool playerIsClose()
     {
-        Vector3 direction = player.transform.position - transform.position;
+        Vector3 direction = _player.transform.position - transform.position;
+        float distance = direction.magnitude;
+
+        if (distance < 1f)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool playerShineLight()
+    {
+        Vector3 direction = _player.transform.position - transform.position;
         float distance = direction.magnitude;
 
         if (distance < 1f)

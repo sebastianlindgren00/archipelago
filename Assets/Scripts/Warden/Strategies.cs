@@ -60,10 +60,18 @@ namespace BehaviourTree
 
     public NodeStatus Execute()
     {
+      Debug.Log("Patrolling " + agent.pathStatus);
       if (waypoints.Length == 0)
       {
         return NodeStatus.ERROR;
       }
+
+
+      // Check if the agent is moving towards a current waypoint
+      // if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathInvalid || agent.pathStatus == NavMeshPathStatus.PathPartial)
+      // {
+      //   agent.SetDestination(waypoints[currentWaypoint].position);
+      // }
 
       if (agent.remainingDistance < PATROL_GOAL_DISTANCE)
       {
@@ -153,6 +161,7 @@ namespace BehaviourTree
         playerMovement.LockMovement(false);
         cameraManager.setTargetOverride(null);
         agent.isStopped = false; // Resume the warden's movement
+        timeElapsed = 0f;
         return NodeStatus.SUCCESS;
       }
 

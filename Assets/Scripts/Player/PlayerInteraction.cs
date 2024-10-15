@@ -55,14 +55,14 @@ public class PlayerInteraction : MonoBehaviour
     // Get the closest object to the player
     closestObject = getClosetObject();
 
-    // Ask the player to pick up the object
+    // Ask the player to interact with the object
     showInteractText(closestObject);
   }
 
   // Check if an item has entered the player's pickup area and ask the player to pick it up.
   private void OnTriggerEnter(Collider other)
   {
-    // Check if the object is a pickup item
+    // Check if the object is an interactable item
     if (!other.CompareTag("Interactable"))
       return;
 
@@ -70,23 +70,23 @@ public class PlayerInteraction : MonoBehaviour
     _objectsInRange.Add(other.gameObject);
   }
 
-  // Check if an item has left the player's pickup area.
+  // Check if an item has left the player's interact area.
   private void OnTriggerExit(Collider other)
   {
-    // Check if the object is a pickup item
+    // Check if the object is a interactable item
     if (!other.CompareTag("Interactable"))
       return;
 
     // Remove the object from the list of objects in range
     _objectsInRange.Remove(other.gameObject);
 
-    // Hide the pickup text if no objects are in range
+    // Hide the interact text if no objects are in range
     if (_objectsInRange.Count == 0)
       _interactTextContainer.SetActive(false);
   }
 
   /// <summary>
-  /// Get the closest object in range of the players pickup area. Useful when multiple objects are in range.
+  /// Get the closest object in range of the players interact area. Useful when multiple objects are in range.
   /// </summary>
   /// <returns>The closest object in range</returns>
   private GameObject getClosetObject()
