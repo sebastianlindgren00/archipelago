@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 namespace BehaviourTree
 {
@@ -213,7 +214,38 @@ namespace BehaviourTree
 
       return (timeElapsed >= timeToLook) ? NodeStatus.SUCCESS : NodeStatus.RUNNING;
     }
+  }
 
+  public class GoToTrackStrategy : IStrategy
+  {
+    readonly NavMeshAgent agent;
+    readonly WardenController warden;
+    GameObject closestTrack;
 
+    public GoToTrackStrategy(NavMeshAgent agent, WardenController warden)
+    {
+      this.agent = agent;
+      this.warden = warden;
+    }
+
+    public NodeStatus Execute()
+    {
+      if (closestTrack == null)
+      {
+        closestTrack = warden.GetClosestTrack();
+
+        if (closestTrack == null)
+          return NodeStatus.FAILURE;
+
+        agent.SetDestination(closestTrack.transform.position);
+      }
+
+      if (agent.remainingDistance < 0.5f)
+      {
+        return NodeStatus.SUCCESS;
+      }
+
+      return NodeStatus.RUNNING;
+    }
   }
 }
