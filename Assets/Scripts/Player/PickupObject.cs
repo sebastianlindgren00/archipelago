@@ -124,6 +124,21 @@ public class PickupObject : MonoBehaviour
         {
             inventoryItems[slot].item.SetActive(true);
             inventoryItems[slot].isHeld = true;
+            checkIfBookIsHeld();
+        }
+    }
+
+    private void checkIfBookIsHeld()
+    {
+        foreach (InventoryItem i in inventoryItems)
+        {
+            if (i.isHeld && i.item.name == "Book")
+            {
+                // Activate book canvas
+                Debug.Log("Book is held" + i.item.name);
+                // enable the child of book item 
+                i.item.transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
     }
 }
