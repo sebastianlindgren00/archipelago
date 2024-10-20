@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BehaviourTree
@@ -11,11 +12,11 @@ namespace BehaviourTree
 
     // If any of the children reports a success, the selector will immediately report a success upwards.
     // If all children fail, it will report a failure instead.
-    public override NodeStatus Evaluate()
+    public async override Task<NodeStatus> Evaluate()
     {
       foreach (Node node in m_children)
       {
-        switch (node.Evaluate())
+        switch (await node.Evaluate())
         {
           case NodeStatus.SUCCESS:
             return NodeStatus.SUCCESS;
@@ -47,11 +48,11 @@ namespace BehaviourTree
 
     // If any of the children reports a success, the selector will immediately report a success upwards.
     // If all children fail, it will report a failure instead.
-    public override NodeStatus Evaluate()
+    public async override Task<NodeStatus> Evaluate()
     {
       foreach (Node node in priorityChildren)
       {
-        switch (node.Evaluate())
+        switch (await node.Evaluate())
         {
           case NodeStatus.SUCCESS:
             return NodeStatus.SUCCESS;
@@ -72,12 +73,12 @@ namespace BehaviourTree
 
     // If any of the children reports a success, the selector will immediately report a success upwards.
     // If all children fail, it will report a failure instead.
-    public override NodeStatus Evaluate()
+    public async override Task<NodeStatus> Evaluate()
     {
       List<Node> shuffledChildren = m_children.OrderBy(x => Random.value).ToList();
       foreach (Node node in shuffledChildren)
       {
-        switch (node.Evaluate())
+        switch (await node.Evaluate())
         {
           case NodeStatus.SUCCESS:
             return NodeStatus.SUCCESS;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace BehaviourTree
 {
@@ -9,7 +10,7 @@ namespace BehaviourTree
 
         // If any child node returns a failure, the entire node fails.
         // Whence all nodes return a success, the node reports a success. 
-        public override NodeStatus Evaluate()
+        public override async Task<NodeStatus> Evaluate()
         {
             // Debug.Log("Sequence: " + Name);
             if (m_currentChild == m_children.Count)
@@ -20,7 +21,7 @@ namespace BehaviourTree
             }
 
             Debug.Log("Evaluating: " + m_children[m_currentChild].Name);
-            switch (m_children[m_currentChild].Evaluate())
+            switch (await m_children[m_currentChild].Evaluate())
             {
                 case NodeStatus.FAILURE:
                     m_currentChild = 0;

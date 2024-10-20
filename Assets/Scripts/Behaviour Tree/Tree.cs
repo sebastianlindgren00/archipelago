@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace BehaviourTree
 {
@@ -6,11 +7,11 @@ namespace BehaviourTree
   {
     public Tree(string name) : base(name) { }
 
-    public override NodeStatus Evaluate()
+    public override async Task<NodeStatus> Evaluate()
     {
       while (m_currentChild < m_children.Count)
       {
-        m_nodeStatus = m_children[m_currentChild].Evaluate();
+        m_nodeStatus = await m_children[m_currentChild].Evaluate();
         // If the child fails or is running, then we stop the loop
         if (m_nodeStatus != NodeStatus.SUCCESS)
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BehaviourTree
 {
@@ -29,7 +30,7 @@ namespace BehaviourTree
         public Node[] GetChildren() => m_children.ToArray();
 
         // Implementing classes use this method to evaluate the desired set of conditions
-        public virtual NodeStatus Evaluate() => m_children[m_currentChild].Evaluate();
+        public async virtual Task<NodeStatus> Evaluate() => await m_children[m_currentChild].Evaluate();
 
         public virtual void Reset()
         {

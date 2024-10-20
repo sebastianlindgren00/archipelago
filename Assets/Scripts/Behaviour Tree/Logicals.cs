@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace BehaviourTree
 {
   public class Inverter : Node
@@ -8,9 +10,9 @@ namespace BehaviourTree
     /* Reports a success if the child fails and 
      * a failure if the child succeeds. Running will report 
      * as running */
-    public override NodeStatus Evaluate()
+    public override async Task<NodeStatus> Evaluate()
     {
-      switch (m_children[0].Evaluate())
+      switch (await m_children[0].Evaluate())
       {
         case NodeStatus.FAILURE:
           m_nodeStatus = NodeStatus.SUCCESS;
@@ -35,11 +37,11 @@ namespace BehaviourTree
       m_repeats = repeats;
     }
 
-    public override NodeStatus Evaluate()
+    public override async Task<NodeStatus> Evaluate()
     {
       if (m_currentRepeats < m_repeats)
       {
-        switch (m_children[0].Evaluate())
+        switch (await m_children[0].Evaluate())
         {
           case NodeStatus.FAILURE:
             m_nodeStatus = NodeStatus.FAILURE;

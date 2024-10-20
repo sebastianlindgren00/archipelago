@@ -90,10 +90,10 @@ public class WardenController : MonoBehaviour
         _tree.Print();
     }
 
-    void Update()
+    async void Update()
     {
         ApplyAnimation();
-        NodeStatus status = _tree.Evaluate();
+        NodeStatus status = await _tree.Evaluate();
         // _tree.PrintRunningNode();
         if (status == NodeStatus.SUCCESS)
         {
