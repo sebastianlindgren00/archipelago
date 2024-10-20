@@ -9,6 +9,7 @@ public class WardenController : MonoBehaviour
     private NavMeshAgent agent;
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private TMPro.TextMeshProUGUI _AIStateText;
     private GameObject _player;
     private PlayerInteraction _playerInteraction;
     private Animator _animator;
@@ -99,6 +100,12 @@ public class WardenController : MonoBehaviour
             _tree.Reset();
         }
         Debug.Log(_tracksInRange.Count);
+        SetAIStateText();
+    }
+
+    private void SetAIStateText()
+    {
+        _AIStateText.text = _tree.GetRunningNode(_tree).Name;
     }
 
     private void ApplyAnimation()
@@ -147,9 +154,15 @@ public class WardenController : MonoBehaviour
 
     private void setDefaultWaypoints()
     {
+        const float RANDOM_RANGE = 20f; // Define the range for random waypoints
         for (int i = 0; i < patrolWaypoints.Length; i++)
         {
-            patrolWaypoints[i].position = new Vector3(UnityEngine.Random.Range(-10, 10), 0, UnityEngine.Random.Range(-10, 10));
+            Vector3 randomPosition = new Vector3(
+                UnityEngine.Random.Range(-RANDOM_RANGE, RANDOM_RANGE),
+                0,
+                UnityEngine.Random.Range(-RANDOM_RANGE, RANDOM_RANGE)
+            );
+            patrolWaypoints[i].position = transform.position + randomPosition;
         }
     }
 
@@ -158,8 +171,8 @@ public class WardenController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Track detected!");
-        // Check if the object is a track
-        if (!other.CompareTag("Track"))
+        // Check if the object is a track or if it has been visited
+        if (!other.CompareTag("Track") || _tracksVisited.Contains(other.gameObject))
             return;
 
         // Add the object to the list of objects in range
