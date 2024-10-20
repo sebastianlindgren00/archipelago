@@ -23,6 +23,31 @@ namespace BehaviourTree
       return NodeStatus.SUCCESS;
     }
 
+    public Node GetRunningNode(Node node)
+    {
+      foreach (var child in node.GetChildren())
+      {
+        // Debug.Log("Checking: " + child.Name + " " + child.nodeState);
+        if (child.nodeState == NodeStatus.SUCCESS)
+        {
+          if (child.GetChildren().Length > 0)
+            return GetRunningNode(child);
+        }
+        else if (child.nodeState == NodeStatus.RUNNING)
+        {
+          return GetRunningNode(child);
+        }
+      }
+
+      if (node.GetChildren().Length > 0)
+      {
+        Node lastChild = node.GetChildren()[node.GetChildren().Length - 1];
+        if (lastChild.nodeState == NodeStatus.RUNNING)
+          return GetRunningNode(node.GetChildren()[node.GetChildren().Length - 1]);
+      }
+      return node;
+    }
+
     public void PrintRunningNode()
     {
       foreach (var child in m_children)

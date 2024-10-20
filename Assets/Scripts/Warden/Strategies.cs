@@ -42,7 +42,7 @@ namespace BehaviourTree
 
     public NodeStatus Execute()
     {
-      // Debug.Log(predicate() ? "SUCCESS" : "FAILURE");
+      // Debug.Log(predicate.nam + (predicate() ? "SUCCESS" : "FAILURE"));
       return predicate() ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
     }
   }
@@ -243,6 +243,7 @@ namespace BehaviourTree
       if (agent.remainingDistance < 0.5f)
       {
         warden.AddVisitedTrack(closestTrack);
+        closestTrack = null;
         return NodeStatus.SUCCESS;
       }
 

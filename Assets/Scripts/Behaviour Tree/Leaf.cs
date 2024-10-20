@@ -17,10 +17,11 @@ namespace BehaviourTree
       switch (action.Execute())
       {
         case NodeStatus.SUCCESS:
-          // Debug.Log("Leaf: " + Name + " SUCCESS");
+          Debug.Log("Leaf: " + Name + " " + " SUCCESS");
           m_nodeStatus = NodeStatus.SUCCESS;
           return m_nodeStatus;
         case NodeStatus.FAILURE:
+          Debug.Log("Leaf: " + Name + " " + " FAILURE");
           m_nodeStatus = NodeStatus.FAILURE;
           return m_nodeStatus;
         default:
