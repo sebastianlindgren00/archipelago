@@ -11,7 +11,7 @@ namespace BehaviourTree
         // Whence all nodes return a success, the node reports a success. 
         public override NodeStatus Evaluate()
         {
-            Debug.Log("Sequence: " + Name);
+            // Debug.Log("Sequence: " + Name);
             if (m_currentChild == m_children.Count)
             {
                 m_currentChild = 0;

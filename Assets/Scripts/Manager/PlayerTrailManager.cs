@@ -8,6 +8,7 @@ public class PlayerTrailManager : MonoBehaviour
     private float _timeSinceLastPoint = 0f;
     private List<GameObject> _trailPoints = new List<GameObject>();
     private GameObject _player;
+    public GameObject PlayerTrailContainer;
 
     void Awake()
     {
@@ -26,8 +27,7 @@ public class PlayerTrailManager : MonoBehaviour
 
     void CreateTrailPoint()
     {
-        Vector3 playerPosition = _player.transform.position;
-        GameObject trailPoint = Instantiate(TrailPointPrefab, playerPosition, _player.transform.rotation);
+        GameObject trailPoint = Instantiate(TrailPointPrefab, _player.transform.position, _player.transform.rotation, PlayerTrailContainer.transform);
         _trailPoints.Add(trailPoint);
     }
 

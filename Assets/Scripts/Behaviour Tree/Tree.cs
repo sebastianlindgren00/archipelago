@@ -23,6 +23,15 @@ namespace BehaviourTree
       return NodeStatus.SUCCESS;
     }
 
+    public void PrintRunningNode()
+    {
+      foreach (var child in m_children)
+      {
+        PrintNode(child, 0, true);
+      }
+
+    }
+
     public void Print()
     {
       Debug.Log("Behaviour Tree: " + Name);
@@ -32,15 +41,28 @@ namespace BehaviourTree
       }
     }
 
-    private void PrintNode(Node node, int depth)
+    private void PrintNode(Node node, int depth, bool runningNode = false)
     {
-      Debug.Log(new string('-', depth) + " " + node.Name);
-      if (node is Tree tree)
+      if (runningNode)
       {
-        foreach (var child in tree.m_children)
+        if (nodeState == NodeStatus.RUNNING)
         {
-          PrintNode(child, depth + 1);
+          foreach (var child in m_children)
+          {
+            PrintNode(child, depth + 1, true);
+          }
         }
+        else
+        {
+          Debug.Log(new string('-', depth) + " " + node.Name);
+        }
+
+      }
+
+      Debug.Log(new string('-', depth) + " " + node.Name);
+      foreach (var child in node.GetChildren())
+      {
+        PrintNode(child, depth + 1);
       }
     }
   }
