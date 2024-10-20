@@ -16,6 +16,7 @@ public class WardenController : MonoBehaviour
     private BehaviourTree.Tree _tree;
     private SoundManager _soundManager;
     private List<GameObject> _tracksInRange = new List<GameObject>();
+    private List<GameObject> _tracksVisited = new List<GameObject>();
 
     void Awake()
     {
@@ -74,7 +75,7 @@ public class WardenController : MonoBehaviour
         lookForTrack.AddChild(new Leaf("Move Towards Track", new GoToTrackStrategy(agent, this)));
 
         // LOOK -> TRACK - Set new waypoints
-        lookForTrack.AddChild(new Leaf("Set New Waypoints", new ActionStrategy(() => SetNewWaypoints(_tracksInRange[0].transform))));
+        lookForTrack.AddChild(new Leaf("Set New Waypoints", new ActionStrategy(() => SetNewWaypoints())));
 
         actions.AddChild(lookForTrack);
 
@@ -92,10 +93,12 @@ public class WardenController : MonoBehaviour
     {
         ApplyAnimation();
         NodeStatus status = _tree.Evaluate();
+        // _tree.PrintRunningNode();
         if (status == NodeStatus.SUCCESS)
         {
             _tree.Reset();
         }
+        Debug.Log(_tracksInRange.Count);
     }
 
     private void ApplyAnimation()
@@ -104,18 +107,34 @@ public class WardenController : MonoBehaviour
         _animator.SetFloat("Speed", agent.velocity.magnitude);
     }
 
-    private void SetNewWaypoints(Transform track)
+    private void SetNewWaypoints(Transform track = null)
     {
+        if (track == null)
+        {
+            // Set the waypoints around the closest track
+            GameObject closestTrack = GetClosestTrack();
+            if (closestTrack == null)
+            {
+                setDefaultWaypoints();
+                return;
+            }
+            track = closestTrack.transform;
+        }
+
+        // Remove the closest track from the list of tracks in range
+        _tracksInRange.Remove(track.gameObject);
+
         // Scatter waypoints around the track
         Vector3 trackPosition = track.position;
         Vector3 trackDirection = track.forward;
         Vector3 trackRight = track.right;
 
         Vector3[] waypoints = new Vector3[5];
-        waypoints[0] = trackPosition + trackDirection * 2 + trackRight * 2;
-        waypoints[1] = trackPosition + trackDirection * 2 - trackRight * 2;
-        waypoints[2] = trackPosition - trackDirection * 2 + trackRight * 2;
-        waypoints[3] = trackPosition - trackDirection * 2 - trackRight * 2;
+        const float trackSearchRange = 5f;
+        waypoints[0] = trackPosition + trackDirection * trackSearchRange + trackRight * trackSearchRange;
+        waypoints[1] = trackPosition + trackDirection * trackSearchRange - trackRight * trackSearchRange;
+        waypoints[2] = trackPosition - trackDirection * trackSearchRange + trackRight * trackSearchRange;
+        waypoints[3] = trackPosition - trackDirection * trackSearchRange - trackRight * trackSearchRange;
         waypoints[4] = trackPosition;
 
         // Set the waypoints
@@ -125,6 +144,15 @@ public class WardenController : MonoBehaviour
         }
 
     }
+
+    private void setDefaultWaypoints()
+    {
+        for (int i = 0; i < patrolWaypoints.Length; i++)
+        {
+            patrolWaypoints[i].position = new Vector3(UnityEngine.Random.Range(-10, 10), 0, UnityEngine.Random.Range(-10, 10));
+        }
+    }
+
 
     // Check in a player track is within the warden's range
     private void OnTriggerEnter(Collider other)
@@ -144,8 +172,8 @@ public class WardenController : MonoBehaviour
     // Check if a player track has left the warden's range
     private void OnTriggerExit(Collider other)
     {
-        // Check if the object is a track
-        if (!other.CompareTag("Track"))
+        // Check if the object is a track or if it has been visited
+        if (!other.CompareTag("Track") || _tracksVisited.Contains(other.gameObject))
             return;
 
         // Remove the object from the list of objects in range
@@ -158,6 +186,10 @@ public class WardenController : MonoBehaviour
             return null;
 
         return _tracksInRange[0];
+    }
+    public void AddVisitedTrack(GameObject track)
+    {
+        _tracksVisited.Add(track);
     }
 
     private bool playerDetected()

@@ -26,6 +26,7 @@ namespace BehaviourTree
         }
 
         public void AddChild(Node child) => m_children.Add(child);
+        public Node[] GetChildren() => m_children.ToArray();
 
         // Implementing classes use this method to evaluate the desired set of conditions
         public virtual NodeStatus Evaluate() => m_children[m_currentChild].Evaluate();
