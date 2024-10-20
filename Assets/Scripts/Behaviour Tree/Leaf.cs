@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BehaviourTree
@@ -12,21 +13,21 @@ namespace BehaviourTree
 
     }
 
-    public override NodeStatus Evaluate()
+    public override Task<NodeStatus> Evaluate()
     {
       switch (action.Execute())
       {
         case NodeStatus.SUCCESS:
           Debug.Log("Leaf: " + Name + " " + " SUCCESS");
           m_nodeStatus = NodeStatus.SUCCESS;
-          return m_nodeStatus;
+          return Task.FromResult(m_nodeStatus);
         case NodeStatus.FAILURE:
           Debug.Log("Leaf: " + Name + " " + " FAILURE");
           m_nodeStatus = NodeStatus.FAILURE;
-          return m_nodeStatus;
+          return Task.FromResult(m_nodeStatus);
         default:
           m_nodeStatus = NodeStatus.RUNNING;
-          return m_nodeStatus;
+          return Task.FromResult(m_nodeStatus);
       }
     }
 

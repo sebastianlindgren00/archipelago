@@ -125,4 +125,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b62ff2ba15dc7141bb110d6141ea3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trailPointLifetime: 10
+  _trailPointLifetime: 20
