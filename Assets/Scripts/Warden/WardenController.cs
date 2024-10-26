@@ -16,6 +16,7 @@ public class WardenController : MonoBehaviour
     public Transform[] patrolWaypoints;
     private BehaviourTree.Tree _tree;
     private SoundManager _soundManager;
+    private GameOverManager _gameOverManager;
     private List<GameObject> _tracksInRange = new List<GameObject>();
     private List<GameObject> _tracksVisited = new List<GameObject>();
 
@@ -31,6 +32,7 @@ public class WardenController : MonoBehaviour
         _playerInteraction = _player.GetComponent<PlayerInteraction>();
 
         _soundManager = GameObject.Find("GameManager").GetComponent<SoundManager>();
+        _gameOverManager = GameObject.Find("GameManager").GetComponent<GameOverManager>();
 
         _tracksInRange = new List<GameObject>();
 
@@ -59,7 +61,7 @@ public class WardenController : MonoBehaviour
         // LOOK -> CHASE -> GRAB 
         Sequence playerInRange = new Sequence("Player In Range");
         playerInRange.AddChild(new Leaf("Player Close?", new Condition(playerIsClose)));
-        playerInRange.AddChild(new Leaf("Grab Player", new GrabStrategy(_player, agent, _animator)));
+        playerInRange.AddChild(new Leaf("Grab Player", new GrabStrategy(_player, _gameOverManager, agent, _animator)));
         chasePlayer.AddChild(playerInRange);
 
         // LOOK -> CHASE - Move towards player (default)
