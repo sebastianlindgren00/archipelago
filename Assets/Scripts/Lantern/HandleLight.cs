@@ -27,7 +27,7 @@ public class HandleLight : MonoBehaviour
         _rightHand = this.transform.parent.gameObject;
         _lantern.SetActive(false); // Start with lantern off
         _player = GameObject.FindGameObjectWithTag("Player");
-        _lantern.transform.position = _rightHand.transform.position - new Vector3(0.0f, 0.25f, 0.0f);
+        _lantern.transform.position = _rightHand.transform.position - new Vector3(0.0f, 0.18f, 0.0f);
     }
 
     private void Update()
