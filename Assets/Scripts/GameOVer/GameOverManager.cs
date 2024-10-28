@@ -40,9 +40,11 @@ public class GameOverManager : MonoBehaviour
         fadeImage.color = fadeColor;
 
         // display GAME OVER text
-        fadeImage.raycastTarget = false;
+        //fadeImage.raycastTarget = false;
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         
         // Pause the game
         Time.timeScale = 0f;
