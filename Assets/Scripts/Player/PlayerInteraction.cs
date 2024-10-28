@@ -11,6 +11,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Runtime.CompilerServices;
+using System;
+using System.Collections;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -20,14 +23,18 @@ public class PlayerInteraction : MonoBehaviour
   private List<GameObject> _objectsInRange;
   private GameObject closestObject;
   private TextInteraction _textInteraction;
-  private WindowInteraction _windowInteraction;
   [SerializeField] private InputReader _inputReader = default;
+  private bool _firstTimeLantern = true;
+  private GameObject _lantern;
+  private bool _firstTimeBook = true;
+  private bool _lanternPickedup = false;
+  private bool _bookPickedup = false;
+  [SerializeField] private TextMeshProUGUI _helpText;
 
   private void Start()
   {
-    _textInteraction = GetComponent<TextInteraction>();
-    _windowInteraction = GetComponent<WindowInteraction>();
-
+    //_textInteraction = GetComponent<TextInteraction>();
+    _lantern = GameObject.FindGameObjectWithTag("Lantern");
     _objectsInRange = new List<GameObject>();
 
     // Get the pickup text component, which should be the first child of the pickup text container
@@ -73,7 +80,7 @@ public class PlayerInteraction : MonoBehaviour
   private void OnTriggerEnter(Collider other)
   {
     // Check if the object is an interactable item
-    if (!other.CompareTag("Interactable"))
+    if (!other.CompareTag("Interactable") && !other.gameObject.name.Contains("PickupLantern") && !other.gameObject.name.Contains("Book") && other.gameObject.activeSelf)
       return;
 
     // Add the object to the list of objects in range
@@ -84,7 +91,7 @@ public class PlayerInteraction : MonoBehaviour
   private void OnTriggerExit(Collider other)
   {
     // Check if the object is a interactable item
-    if (!other.CompareTag("Interactable"))
+    if (!other.CompareTag("Interactable") && !other.gameObject.name.Contains("PickupLantern") && !other.gameObject.name.Contains("Book") && !other.gameObject.activeSelf)
       return;
 
     // Remove the object from the list of objects in range
@@ -130,26 +137,54 @@ public class PlayerInteraction : MonoBehaviour
     // Set the text to the objects name
     if (obj.name.Contains("text"))
     {
-      _interactObjectText.text = "Read " + objectName;
+      _interactObjectText.text = "read " + objectName;
       if(Input.GetKeyDown(KeyCode.E)) {
         ReadText();
       }
     }
     else if (obj.name.Contains("Window")){
-      _interactObjectText.text = "Press E to speak";
+      _interactObjectText.text = "press e to speak";
       if(Input.GetKeyDown(KeyCode.E)) {
         InteractWindow();
       }
     }
-    else
-      _interactObjectText.text = obj.name;
+    else if (obj.name.Contains("PickupLantern"))
+    {
+      _interactObjectText.text = "press e to pickup";
+      if(Input.GetKeyDown(KeyCode.E) && _firstTimeLantern) {
+       DisplayHelpText("PickupLantern", obj);
+      }
+    }
+    else if (obj.name.Contains("Book"))
+    {
+      _interactObjectText.text = "press e to pickup";
+      if(Input.GetKeyDown(KeyCode.E) && _firstTimeBook) {
+        DisplayHelpText("Book", obj);
+      }
+    }
 
     _interactTextContainer.SetActive(true);
   }
 
-  // private void textInteraction() => _textInteraction.ReadText();
+    private void DisplayHelpText(string objectName, GameObject obj)
+    {
+      Debug.Log("Displaying text");
+        if(objectName.Contains("Book"))
+        {
+            _firstTimeBook = false;
+            StartCoroutine(FadeInAndOut(_helpText, objectName, obj, 1f, 2f));
+        }
+        if(objectName.Contains("PickupLantern"))
+        {
+          Debug.Log("Displaying lantern toggle text");
+            _firstTimeLantern = false;
+            StartCoroutine(FadeInAndOut(_helpText, objectName, obj, 1f, 2f));
+        }
+    }
 
-  private void InteractWindow()
+    // private void textInteraction() => _textInteraction.ReadText();
+
+    private void InteractWindow()
   {
       GameObject closestObject = GetComponent<PlayerInteraction>().GetClosestObject();
       if (!closestObject.name.Contains("Window"))
@@ -174,4 +209,45 @@ public class PlayerInteraction : MonoBehaviour
       string text = closestObject.GetComponentInChildren<TextMeshPro>().text;
       Debug.Log(text);
   }
+
+  private IEnumerator FadeInAndOut(TextMeshProUGUI textMeshPro, string type, GameObject obj, float fadeInDuration, float fadeOutDuration)
+    {
+      _interactObjectText.text = "";
+        textMeshPro.gameObject.SetActive(true);
+        Color originalColor = textMeshPro.color;
+        originalColor.a = 0;
+        textMeshPro.color = originalColor;
+        if(type == "PickupLantern") {
+          textMeshPro.text = "press f to toggle it on and off";
+          
+          _objectsInRange.Remove(obj);
+          if (_objectsInRange.Count == 0)
+            _interactTextContainer.SetActive(false);
+        } 
+        else if(type == "Book") {
+          textMeshPro.text = "press one to read it and two to close it";
+          _objectsInRange.Remove(obj);
+          if (_objectsInRange.Count == 0)
+            _interactTextContainer.SetActive(false);
+        }
+        
+        // fade
+        while (textMeshPro.color.a < 1)
+        {
+            originalColor.a += Time.deltaTime / fadeInDuration;
+            textMeshPro.color = originalColor;
+            yield return null;
+        }
+        
+        yield return new WaitForSeconds(5);
+        
+        while (textMeshPro.color.a > 0)
+        {
+            originalColor.a -= Time.deltaTime / fadeOutDuration;
+            textMeshPro.color = originalColor;
+            yield return null;
+        }
+        
+        textMeshPro.gameObject.SetActive(false);
+    }
 }
