@@ -1387,7 +1387,6 @@ GameObject:
   - component: {fileID: 2048961260314837753}
   - component: {fileID: 2644789238391252974}
   - component: {fileID: 5130900192842296049}
-  - component: {fileID: 4055763576907395738}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1482,27 +1481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a1441274869477bbe729709579eadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4055763576907395738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7716820706052764706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c3f4f81b740fc4295fcd4ce13a23bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _seaCrystal: {fileID: 0}
-  _shoreCrystal: {fileID: 0}
-  _mistCrystal: {fileID: 0}
-  _lastCrystal: {fileID: 0}
-  _completionMessage: {fileID: 0}
-  _seaCrystalSound: {fileID: 8300000, guid: 29ce589b9331b9947b6733f11ce76155, type: 3}
-  _shoreCrystalSound: {fileID: 8300000, guid: 10ca24eb142c1f346996ae8ba84ca820, type: 3}
-  _mistCrystalSound: {fileID: 8300000, guid: fd4863c2768677c45b8718ee549ee766, type: 3}
-  _lastCrystalSound: {fileID: 8300000, guid: f97ecaee6f2a9b14d9af38c2c06e75cd, type: 3}
+  _lantern: {fileID: 0}
 --- !u!1 &7882709991348223026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1691,7 +1670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1699,23 +1678,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
-      propertyPath: m_LocalRotation.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000044703473
+      objectReference: {fileID: 0}
+    - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.000000029802315
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.000000044703473
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7744084877188497191, guid: 16622b1bc39234f5186bb315d77555e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y

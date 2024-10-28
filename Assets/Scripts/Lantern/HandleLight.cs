@@ -5,9 +5,8 @@ public class HandleLight : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader = default;
 
-    private GameObject _lantern = default;
+    private GameObject lantern = default;
     private GameObject _player = default;
-    private GameObject _rightHand = default;
 
     private List<PickupObject.InventoryItem> _inventoryItems;
 
@@ -23,11 +22,9 @@ public class HandleLight : MonoBehaviour
 
     private void Start()
     {   
-        _lantern = transform.GetChild(0).gameObject; 
-        _rightHand = this.transform.parent.gameObject;
-        _lantern.SetActive(false); // Start with lantern off
+        lantern = transform.GetChild(0).gameObject; 
+        lantern.SetActive(false); // Start with lantern off
         _player = GameObject.FindGameObjectWithTag("Player");
-        _lantern.transform.position = _rightHand.transform.position - new Vector3(0.0f, 0.18f, 0.0f);
     }
 
     private void Update()
@@ -44,7 +41,7 @@ public class HandleLight : MonoBehaviour
 
         if (_inventoryItems.Count > 0 && _inventoryItems[0].item.name == "PickupLantern")
         {
-            _lantern.SetActive(!_lantern.activeSelf);
+            lantern.SetActive(!lantern.activeSelf);
         }
         else
         {

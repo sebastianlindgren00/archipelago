@@ -36,9 +36,9 @@ public class DisperseFog : MonoBehaviour
         float fogDistance = fogComponent.parameters.meanFreePath;
 
         // Disperse fog
-        while(fogDistance < 4.0f)
+        while(fogDistance < 10)
         {
-            fogDistance += 0.2f;
+            fogDistance += 0.1f;
             fogComponent.parameters.meanFreePath = fogDistance;
             yield return new WaitForSeconds(0.1f);
         }
