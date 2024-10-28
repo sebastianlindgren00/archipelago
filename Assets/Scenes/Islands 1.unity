@@ -6975,8 +6975,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: db501d84ebc7d3543814567aef944228, type: 2}
+  m_sharedMaterial: {fileID: 5677786202527427964, guid: db501d84ebc7d3543814567aef944228, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7006,7 +7006,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -7467,11 +7467,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1862811105727017899, guid: 40bc19f0bb1744a53abec2f952dffeb2, type: 3}
       propertyPath: m_text
-      value: You here a small rumbling coming from the beach
+      value: you here a small rumbling coming from the beach
       objectReference: {fileID: 0}
+    - target: {fileID: 1862811105727017899, guid: 40bc19f0bb1744a53abec2f952dffeb2, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: db501d84ebc7d3543814567aef944228, type: 2}
+    - target: {fileID: 1862811105727017899, guid: 40bc19f0bb1744a53abec2f952dffeb2, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1862811105727017899, guid: 40bc19f0bb1744a53abec2f952dffeb2, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 5677786202527427964, guid: db501d84ebc7d3543814567aef944228, type: 2}
     - target: {fileID: 1862811105727017899, guid: 40bc19f0bb1744a53abec2f952dffeb2, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1862811105727017899, guid: 40bc19f0bb1744a53abec2f952dffeb2, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5750313606163849405, guid: 40bc19f0bb1744a53abec2f952dffeb2, type: 3}
       propertyPath: m_IsActive
