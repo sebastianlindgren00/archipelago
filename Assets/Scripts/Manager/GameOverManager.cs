@@ -47,7 +47,7 @@ public class GameOverManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         
         // Pause the game
-        Time.timeScale = 0f;
+        Time.timeScale = 0.0001f;
     }
 
     public void ResetGame() {
