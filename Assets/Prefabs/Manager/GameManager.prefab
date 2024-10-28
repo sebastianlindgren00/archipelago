@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2768725983358205973}
   - component: {fileID: 7593993607399638482}
   - component: {fileID: 4152253071550451419}
+  - component: {fileID: 3127595706462720028}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -156,6 +157,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d511f73a9aea9ae47aa109b2266b6092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trailPointPrefab: {fileID: 0}
-  trailFrequency: 2
-  trailPointLifetime: 10
+  TrailPointPrefab: {fileID: 0}
+  _trailFrequency: 2
+  PlayerTrailContainer: {fileID: 0}
+--- !u!114 &3127595706462720028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539293417546791068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697cc029a48644a3789456b589c634b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 0}
+  gameOverText: {fileID: 0}
+  fadeDuration: 1
+  restartButton: {fileID: 0}

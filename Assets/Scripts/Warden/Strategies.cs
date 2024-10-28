@@ -128,17 +128,19 @@ namespace BehaviourTree
     // readonly GameObject player;
     readonly CameraManager cameraManager;
     readonly PlayerMovement playerMovement;
+    readonly GameOverManager gameOverManager;
     readonly Animator animator;
     readonly NavMeshAgent agent;
     private float timeElapsed = 0f;
     private float timeToRelease = 2f;
 
-    public GrabStrategy(GameObject player, NavMeshAgent agent, Animator animator)
+    public GrabStrategy(GameObject player, GameOverManager gameOverManager, NavMeshAgent agent, Animator animator)
     {
       // this.player = player;
       playerMovement = player.GetComponent<PlayerMovement>();
       this.animator = animator;
       this.agent = agent;
+      this.gameOverManager = gameOverManager;
 
       // Get the camera manager
       cameraManager = GameObject.FindWithTag("CameraGroup").GetComponent<CameraManager>();
@@ -163,6 +165,7 @@ namespace BehaviourTree
         cameraManager.setTargetOverride(null);
         agent.isStopped = false; // Resume the warden's movement
         timeElapsed = 0f;
+        gameOverManager.FadeToBlack();
         return NodeStatus.SUCCESS;
       }
 

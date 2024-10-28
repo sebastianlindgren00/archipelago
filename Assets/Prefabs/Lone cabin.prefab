@@ -45,7 +45,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.93558455, g: 1, b: 0, a: 1}
-  m_Intensity: 1305.9191
+  m_Intensity: 40.38044
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 16410.664
+  m_Intensity: 507.4356
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -263,8 +263,62 @@ Transform:
   - {fileID: 8652421797353157932}
   - {fileID: 6459041724938171420}
   - {fileID: 765650786292072519}
+  - {fileID: 5261272348795602827}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 91.903, z: 0}
+--- !u!1 &6609607751107932722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5261272348795602827}
+  - component: {fileID: 7476819133580251465}
+  m_Layer: 0
+  m_Name: Window
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5261272348795602827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609607751107932722}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.14169067, z: -0, w: 0.98991096}
+  m_LocalPosition: {x: 5.45, y: -2.789999, z: 46.19}
+  m_LocalScale: {x: 2.5215914, y: 2.5215914, z: 4.3845434}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2972006634830892243}
+  m_LocalEulerAnglesHint: {x: 0, y: 16.291, z: 0}
+--- !u!65 &7476819133580251465
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609607751107932722}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.66, y: 1, z: 1.24}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7985806540485239456
 GameObject:
   m_ObjectHideFlags: 0

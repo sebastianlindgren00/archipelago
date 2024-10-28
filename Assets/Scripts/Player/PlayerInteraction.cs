@@ -20,11 +20,13 @@ public class PlayerInteraction : MonoBehaviour
   private List<GameObject> _objectsInRange;
   private GameObject closestObject;
   private TextInteraction _textInteraction;
+  private WindowInteraction _windowInteraction;
   [SerializeField] private InputReader _inputReader = default;
 
   private void Start()
   {
     _textInteraction = GetComponent<TextInteraction>();
+    _windowInteraction = GetComponent<WindowInteraction>();
 
     _objectsInRange = new List<GameObject>();
 
@@ -35,15 +37,23 @@ public class PlayerInteraction : MonoBehaviour
     _interactTextContainer.gameObject.SetActive(false);
   }
 
-  private void OnEnable()
-  {
-    _inputReader.PickupItemEvent += textInteraction;
-  }
+  // private void OnEnable()
+  // {
+  //   if(closestObject.name == "Window") {
+  //     _inputReader.PickupItemEvent += windowInteraction;
+  //   } else {
+  //     _inputReader.PickupItemEvent += textInteraction;
+  //   }
+  // }
 
-  private void OnDisable()
-  {
-    _inputReader.PickupItemEvent -= textInteraction;
-  }
+  // private void OnDisable()
+  // {
+  //   if(closestObject.name == "Window") {
+  //     _inputReader.PickupItemEvent -= windowInteraction;
+  //   } else {
+  //     _inputReader.PickupItemEvent -= textInteraction;
+  //   }
+  // }
 
   public GameObject GetClosestObject() => closestObject;
 
@@ -121,7 +131,15 @@ public class PlayerInteraction : MonoBehaviour
     if (obj.name.Contains("text"))
     {
       _interactObjectText.text = "Read " + objectName;
-
+      if(Input.GetKeyDown(KeyCode.E)) {
+        ReadText();
+      }
+    }
+    else if (obj.name.Contains("Window")){
+      _interactObjectText.text = "Press E to speak";
+      if(Input.GetKeyDown(KeyCode.E)) {
+        InteractWindow();
+      }
     }
     else
       _interactObjectText.text = obj.name;
@@ -129,5 +147,31 @@ public class PlayerInteraction : MonoBehaviour
     _interactTextContainer.SetActive(true);
   }
 
-  private void textInteraction() => _textInteraction.ReadText();
+  // private void textInteraction() => _textInteraction.ReadText();
+
+  private void InteractWindow()
+  {
+      GameObject closestObject = GetComponent<PlayerInteraction>().GetClosestObject();
+      if (!closestObject.name.Contains("Window"))
+          return;
+
+      // Get text from the object
+      AudioClip audioClip = closestObject.GetComponentInChildren<AudioSource>().clip;
+      AudioSource audioSource = closestObject.GetComponentInChildren<AudioSource>();
+      if (audioSource != null && audioClip != null)
+      {
+          audioSource.Play();
+      }
+  }
+
+  private void ReadText()
+  {
+      GameObject closestObject = GetComponent<PlayerInteraction>().GetClosestObject();
+      if (!closestObject.name.Contains("text"))
+          return;
+
+      // Get text from the object
+      string text = closestObject.GetComponentInChildren<TextMeshPro>().text;
+      Debug.Log(text);
+  }
 }

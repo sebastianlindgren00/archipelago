@@ -1388,6 +1388,7 @@ GameObject:
   - component: {fileID: 2644789238391252974}
   - component: {fileID: 5130900192842296049}
   - component: {fileID: 4055763576907395738}
+  - component: {fileID: 5406380368418688434}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1462,7 +1463,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7716820706052764706}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3b45267bd33346ed9ae48f34b6a7fc4, type: 3}
   m_Name: 
@@ -1503,6 +1504,23 @@ MonoBehaviour:
   _shoreCrystalSound: {fileID: 8300000, guid: 10ca24eb142c1f346996ae8ba84ca820, type: 3}
   _mistCrystalSound: {fileID: 8300000, guid: fd4863c2768677c45b8718ee549ee766, type: 3}
   _lastCrystalSound: {fileID: 8300000, guid: f97ecaee6f2a9b14d9af38c2c06e75cd, type: 3}
+--- !u!114 &5406380368418688434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7716820706052764706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22770a73bb7e0054aa4b9ce91cdeca07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickupTextMargin: 2
+  _interactTextContainer: {fileID: 0}
+  _textInteraction: {fileID: 0}
+  _windowInteraction: {fileID: 0}
+  _inputReader: {fileID: 11400000, guid: b3ebb34d390024a48b45f7e4619cbabd, type: 2}
 --- !u!1 &7882709991348223026
 GameObject:
   m_ObjectHideFlags: 0
